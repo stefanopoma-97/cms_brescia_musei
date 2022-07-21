@@ -21,21 +21,19 @@
                     
                 <div class="form-group row">
                     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-                    <label for="ragruppamento">Criterio di ragruppamento:</label>
-                        <select onchange="filtra_raggruppamenti(this)" class="form-control" id="ragruppamento" name="ragruppamento" placeholder="">
+                    <label for="raggruppamento">Criterio di raggruppamento:</label>
+                        <select onchange="filtra_raggruppamenti(this)" class="form-control" id="raggruppamento" name="raggruppamento" placeholder="">
                             <option value="Qualsiasi">Qualsiasi</option>
                             <option value="Numero di visiste">Numero di visite</option>
-                            <option value="Numero di visiste">Fascia di età</option>
+                            <option value="Numero di visiste">Autore</option>
                         </select>
                     </div>
                 </div>
-                <div id="div_valore_ragruppamento_multi_select" class="form-group row" style='display:none'>
+                <div id="div_valore_raggruppamento_multi_select" class="form-group row" style='display:none'>
                     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-                    <label for="valore ragruppamento">Valore:</label>
-                        <select class="form-control" id="valore_ragruppamento" name="valore_ragruppamento" placeholder="">
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                    <label for="valore raggruppamento">Valore:</label>
+                        <select class="form-control" id="valore_raggruppamento" name="valore_raggruppamento" placeholder="">
+                            
                         </select>
                     </div>
                 </div>
@@ -65,11 +63,11 @@
 
 
 
-            <div class="row top-buffer"/> 
 
-            <div class="row">
+            <div class="row top-buffer">
                 <div class="col-md-8 col-md-offset-1">
                     <table id="tabella_elenco_opere" class="table table-striped table-hover table-responsive  table-sm" style="width:100%" data-toggle="table" data-search="true" data-show-columns="true" >
+                        <col width='10%'>
                         <col width='10%'>
                         <col width='10%'>
                         <col width='10%'>
@@ -81,20 +79,22 @@
                                 <th hidden>Id</th>
                                 <th>Titolo</th>
                                 <th>Autore</th>
-                                <th>Visite</th>
+                                <th>Anno</th>
+                                <th hidden>Visite</th>
                                 <th></th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach($opere as $opera)
-                            <tr>
+                            <tr class="righe_tabella_opere">
                                 <td hidden>{{ $opera->id }}</a></td>
-                                <td onclick="location.href='{{route('opera.show',['opera'=>$opera->id])}}'">{{ $opera->nome }}</td>
-                                <td>{{ $opera->autore }}</td>
-                                <td>{{ $opera->visite }}</td>
-                                <td>
-                                    <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
+                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$opera->id])}}'">{{ $opera->nome }}</td>
+                                <td class="item_autore">{{ $opera->autore }}</td>
+                                <td class="item_anno">{{ $opera->anno }}</td>
+                                <td hidden class="item_visite">{{ $opera->visite }}</td>
+                                <td class="item_bottone">
+                                    <a class="btn btn-disabled" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -104,7 +104,61 @@
 
                     </table>
                 </div>
+                <button style="margin-top: 1em;"  class="btn btn-info btn-toolbar" data-toggle="modal" data-target="#modalForm"><i class="fa fa-plus"></i> Aggiungi una nuova esperienza</button>
+
+                <div class="col-md-3 col-md-pull-1">
+                    <h3> Aggiunte:</h3>
+                    <table id="tabella_elenco_opere_aggiunte" class="table table-striped table-hover table-responsive  table-sm" style="width:100%" data-toggle="table" data-search="true" data-show-columns="true" >
+                        <col width='10%'>
+                        <col width='5%'>
+
+                        <thead>
+                            <tr>
+                                <th>Titolo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Nome</td>
+                                <td>
+                                    <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-remove"></span></a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        
+
+                    </table>
+                </div>
             </div>
+
+
+
+
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Sei sicuro di voler inserire quest'opera?</h1>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Conferma</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+
+            </div>
+            <div class="modal-footer" style="text-align:center">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <h5> L'opera non rispetta i criteri selezionati</h5>
+            </div>
+        </div> /.modal-content
+    </div> /.modal-dialog
+
+</div>
+
 
 
 
