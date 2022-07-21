@@ -148,8 +148,9 @@ function filtra_opere_visite(valore){
         else {
             console.log("Valore visite minore di: "+valore);
             $(this).find('.item_bottone a').attr("class", "btn btn-default submit-modal");
-            $(this).find('.item_bottone a').attr("data-toggle", "modal");
-            $(this).find('.item_bottone a').attr("data-target", "#modalForm");
+            //$(this).find('.item_bottone a').attr("data-toggle", "modal");
+            //$(this).find('.item_bottone a').attr("data-target", "#modalForm");
+            $(this).find('.item_bottone a').attr("onclick", "click_modal(this, opere, opere_selezionate)");
         }
         });
            
@@ -158,11 +159,26 @@ function filtra_opere_visite(valore){
     
 }
 
+function click_modal(bottone, opere, opere_selezionate){
+    
+    console.log("click button modal");
+    
+    $('#modalForm').modal('show');
+    
+    
+    
+    
+    $('#modal-button-success').click(function(){
+        tab1_To_tab2(bottone, opere, opere_selezionate);
+    });
+}
+
 
 function tab1_To_tab2(bottone, array_opere, array_opere_selezionate)
 {
     console.log("array opere: "+array_opere);
     console.log("array opere selezionate: "+array_opere_selezionate);
+    console.log("bottone cliccato: "+$(bottone).html());
     var table2 = document.getElementById("tabella_elenco_opere_aggiunte");
     
     var id = $(bottone).parent().parent().find('.item_id').html();
@@ -171,19 +187,25 @@ function tab1_To_tab2(bottone, array_opere, array_opere_selezionate)
     console.log("Titolo: "+titolo);
     console.log("ID: "+id);
     
-    $("#tabella_elenco_opere_aggiunte tbody").prepend("<tr><td class='item_id' hidden>"
-            +id+"</td><td class='item_titolo'>"
-            +titolo+"</td><td><a class='btn btn-default' onclick='tab2_To_tab1(this, opere, opere_selezionate)'><span class='glyphicon glyphicon-remove'></span></a></td></tr>");
-                           
-    $(bottone).parent().parent().hide();
+   
     
-    var j;
+    var j=-1;
     for (let i = 0; i < array_opere.length; i++){
         if (array_opere[i].id == id)
             j=i;
     }
-    array_opere_selezionate.push(array_opere[j])
-    array_opere.splice(j, 1);
+    if (j!=-1){
+        
+        $("#tabella_elenco_opere_aggiunte tbody").prepend("<tr><td class='item_id' hidden>"
+            +id+"</td><td class='item_titolo'>"
+            +titolo+"</td><td><a class='btn btn-default' onclick='tab2_To_tab1(this, opere, opere_selezionate)'><span class='glyphicon glyphicon-remove'></span></a></td></tr>");
+                           
+        $(bottone).parent().parent().hide();
+        
+        array_opere_selezionate.push(array_opere[j]);
+        array_opere.splice(j, 1); 
+    }
+    
     
     console.log("array opere: "+array_opere);
     console.log("array opere selezionate: "+array_opere_selezionate);
