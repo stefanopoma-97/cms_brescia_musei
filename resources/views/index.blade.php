@@ -16,6 +16,8 @@
 
 
 @section('corpo')
+
+
         
             <form id="form_crea_percorso" name="form_crea_percorso" method="get" action="{{ route('home') }}"/>
                     
@@ -120,13 +122,7 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td hidden>1</td>
-                                <td>Nome</td>
-                                <td>
-                                    <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-remove"></span></a>
-                                </td>
-                            </tr>
+                           
 
                         </tbody>
                         
@@ -147,7 +143,7 @@
                 <h1 class="modal-title">Sei sicuro di voler inserire quest'opera?</h1>
             </div>
             <div class="modal-body">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Conferma</button>
+                <button id="modal-button-success" type="button" onclick="tab1_To_tab2(bottone_cliccato, opere, opere_selezionate)"  class="btn btn-success" data-dismiss="modal">Conferma</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
 
             </div>
@@ -165,9 +161,24 @@
 
 
 
+            
+<script type="text/javascript">
+var opere = <?php echo json_encode($opere); ?>;
+var opere_selezionate = [];
+var bottone_cliccato;
+</script> 
 
-            
-            
+    
+<script type="text/javascript">
+    $("#modal-button-success").click(function (e) {
+        console.log("click button modal");
+    });
+        bottone_cliccato=e.currentTarget;
+        console.log("bottone cliccato: "+bottone_cliccato);
+    });
+
+    //onclick="tab1_To_tab2(this, opere, opere_selezionate) 
+</script>
             
         
 @endsection

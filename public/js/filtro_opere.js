@@ -12,7 +12,7 @@ function filtra_raggruppamenti(select){
     console.log("raggruppamento: "+raggruppamento);
     
     if (raggruppamento=="Qualsiasi"){
-       $('#div_valore_ragruppamento_multi_select').hide();
+       $('#div_valore_raggruppamento_multi_select').hide();
        console.log("mantengo nascosti criteri");
        
        $('#informazioni_selezione').html("Hai selezionato qualsiasi....");
@@ -103,7 +103,7 @@ function filtra_opere_qualsiasi(){
     $(string_hide).hide();
     
     $('#tabella_elenco_opere td a').attr("class", "btn btn-success");
-    $('#tabella_elenco_opere td a').attr("onclick", "tab1_To_tab2(this)");
+    $('#tabella_elenco_opere td a').attr("onclick", "tab1_To_tab2(this, opere, opere_selezionate)");
     
 }
 
@@ -143,11 +143,11 @@ function filtra_opere_visite(valore){
         if(numero_visite >= valore){
             console.log("Valore visite maggiore di: "+valore);
             $(this).find('.item_bottone a').attr("class", "btn btn-success");
-            $(this).find('.item_bottone a').attr("onclick", "tab1_To_tab2(this)");
+            $(this).find('.item_bottone a').attr("onclick", "tab1_To_tab2(this, opere, opere_selezionate)");
         }
         else {
             console.log("Valore visite minore di: "+valore);
-            $(this).find('.item_bottone a').attr("class", "btn btn-default");
+            $(this).find('.item_bottone a').attr("class", "btn btn-default submit-modal");
             $(this).find('.item_bottone a').attr("data-toggle", "modal");
             $(this).find('.item_bottone a').attr("data-target", "#modalForm");
         }
@@ -159,8 +159,10 @@ function filtra_opere_visite(valore){
 }
 
 
-function tab1_To_tab2(bottone)
+function tab1_To_tab2(bottone, array_opere, array_opere_selezionate)
 {
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
     var table2 = document.getElementById("tabella_elenco_opere_aggiunte");
     
     var id = $(bottone).parent().parent().find('.item_id').html();
@@ -169,19 +171,77 @@ function tab1_To_tab2(bottone)
     console.log("Titolo: "+titolo);
     console.log("ID: "+id);
     
-    $("#tabella_elenco_opere_aggiunte tbody").prepend("<tr><td hidden>"+id+"</td><td>"+titolo+"</td><td><a class='btn btn-default' href='#'><span class='glyphicon glyphicon-remove'></span></a></td></tr>");
-    
-    /*
-    var newRow = table2.insertRow(table2.length);
-    cell1 = newRow.insertCell(0);
-    cell2 = newRow.insertCell(1);
-    cell3 = newRow.insertCell(2);
-                                
-    // add values to the cells
-    cell1.innerHTML = id;
-    cell2.innerHTML = titolo;
-    cell3.innerHTML = "<a class='btn btn-default' href=><span class='glyphicon glyphicon-remove'></span></a>";*/
+    $("#tabella_elenco_opere_aggiunte tbody").prepend("<tr><td class='item_id' hidden>"
+            +id+"</td><td class='item_titolo'>"
+            +titolo+"</td><td><a class='btn btn-default' onclick='tab2_To_tab1(this, opere, opere_selezionate)'><span class='glyphicon glyphicon-remove'></span></a></td></tr>");
                            
-    $(bottone).parent().parent().remove();
+    $(bottone).parent().parent().hide();
+    
+    var j;
+    for (let i = 0; i < array_opere.length; i++){
+        if (array_opere[i].id == id)
+            j=i;
+    }
+    array_opere_selezionate.push(array_opere[j])
+    array_opere.splice(j, 1);
+    
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
         
 }
+
+function tab2_To_tab1(bottone, array_opere, array_opere_selezionate)
+{
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
+    
+    var table1 = document.getElementById("tabella_elenco_opere");
+    
+    var id = $(bottone).parent().parent().find('.item_id').html();
+    
+    var j=-1;
+    for (let i = 0; i < array_opere_selezionate.length; i++){
+        if (array_opere_selezionate[i].id == id)
+            j=i;
+    }
+    if (j!=-1){
+        
+        var opera = array_opere_selezionate[j];
+        console.log("id opera trovato in array: "+opera.id);
+        $('.righe_tabella_opere').each(function(){
+        var id = $(this).find('.item_id').html();
+        var numero_id = Number( id.replace(/[^0-9\.]+/g,""));
+        console.log("numero id: "+numero_id);
+        if(numero_id == opera.id){
+            console.log("trovata corrispondenza con colonna");
+            $(this).show();
+        }
+        
+        });
+       
+        
+        $(bottone).parent().parent().remove();
+
+        array_opere.push(array_opere_selezionate[j]);
+        array_opere_selezionate.splice(j, 1);
+        
+        filtra_opere();
+    }
+    
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
+    
+    
+    
+    
+    
+   
+        
+}
+
+
+function array_opere(opere){
+    console.log("array opere: "+opere);
+}
+
+

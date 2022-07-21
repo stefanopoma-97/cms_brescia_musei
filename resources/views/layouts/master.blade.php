@@ -94,7 +94,77 @@
         </div>
 
         @yield('corpo')
+        
+        
+        
+        <div style="margin-top: 5em" class="container">
+            <div class="row">
+                <footer class="page-footer font-small blue-grey lighten-5">
+                    <div class="col-md-12">
+                        <div style="background-color: rgba(53, 126, 189, 0.6);">
+                            <br>
+                            <br>
 
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="container text-center">
+
+                        <div class="row dark-grey-text">
+
+                            <div class="col-md-4 col-foot">
+                                <h4 class="text-uppercase font-weight-bold">Il progetto</h4>
+                                <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                                <p>Il sito ha lo scopo di raccogliere tutti i sentieri italiani. Dividendoli per categorie e
+                                    permettendo una ricerca sulla base di molti parametri.</p>
+                            </div>
+
+                            <div class="col-md-4 col-foot">
+
+                                <h4 class="text-uppercase font-weight-bold">Links utili</h4>
+                                <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+
+                                <div class="container">
+                                    
+                            </div>
+
+                            <div class="col-md-4 col-foot">
+                                <h4 class="text-uppercase font-weight-bold">Contatti</h4>
+                                <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+
+                                <div class="container">
+                                    <div class="row">
+                                        <i class="fas fa-home"></i> Brescia UNIBS
+                                    </div>
+
+                                    <div class="row">
+                                        <i class="fas fa-envelope"></i> info@sentieri.com
+                                    </div>
+
+                                    <div class="row">
+                                        <i class="fas fa-phone"></i> + 01 234 567 88
+                                    </div>
+
+                                    <div class="row">
+                                        <i class="fas fa-print"></i> + 01 234 567 89
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+                    <div class="footer-copyright text-center text-black-50 py-3">© 2020 Copyright:
+                    </div>
+                    <br>
+
+                </footer>
+            </div>
+        </div>
 
        
 
