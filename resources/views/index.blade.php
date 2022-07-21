@@ -88,7 +88,7 @@
                         <tbody>
                             @foreach($opere as $opera)
                             <tr class="righe_tabella_opere">
-                                <td hidden>{{ $opera->id }}</a></td>
+                                <td class="item_id" hidden>{{ $opera->id }}</a></td>
                                 <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$opera->id])}}'">{{ $opera->nome }}</td>
                                 <td class="item_autore">{{ $opera->autore }}</td>
                                 <td class="item_anno">{{ $opera->anno }}</td>
@@ -104,7 +104,6 @@
 
                     </table>
                 </div>
-                <button style="margin-top: 1em;"  class="btn btn-info btn-toolbar" data-toggle="modal" data-target="#modalForm"><i class="fa fa-plus"></i> Aggiungi una nuova esperienza</button>
 
                 <div class="col-md-3 col-md-pull-1">
                     <h3> Aggiunte:</h3>
@@ -114,13 +113,15 @@
 
                         <thead>
                             <tr>
+                                <th hidden>Id</th>
                                 <th>Titolo</th>
-                                <th></th>
+                                <th hidden></th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr>
+                                <td hidden>1</td>
                                 <td>Nome</td>
                                 <td>
                                     <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-remove"></span></a>

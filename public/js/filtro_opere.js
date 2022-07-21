@@ -103,6 +103,7 @@ function filtra_opere_qualsiasi(){
     $(string_hide).hide();
     
     $('#tabella_elenco_opere td a').attr("class", "btn btn-success");
+    $('#tabella_elenco_opere td a').attr("onclick", "tab1_To_tab2(this)");
     
 }
 
@@ -142,6 +143,7 @@ function filtra_opere_visite(valore){
         if(numero_visite >= valore){
             console.log("Valore visite maggiore di: "+valore);
             $(this).find('.item_bottone a').attr("class", "btn btn-success");
+            $(this).find('.item_bottone a').attr("onclick", "tab1_To_tab2(this)");
         }
         else {
             console.log("Valore visite minore di: "+valore);
@@ -154,4 +156,32 @@ function filtra_opere_visite(valore){
     //$('#tabella_elenco_opere td a').attr("class", "btn btn-success");
 
     
+}
+
+
+function tab1_To_tab2(bottone)
+{
+    var table2 = document.getElementById("tabella_elenco_opere_aggiunte");
+    
+    var id = $(bottone).parent().parent().find('.item_id').html();
+    var titolo = $(bottone).parent().parent().find('.item_titolo').html();
+    
+    console.log("Titolo: "+titolo);
+    console.log("ID: "+id);
+    
+    $("#tabella_elenco_opere_aggiunte tbody").prepend("<tr><td hidden>"+id+"</td><td>"+titolo+"</td><td><a class='btn btn-default' href='#'><span class='glyphicon glyphicon-remove'></span></a></td></tr>");
+    
+    /*
+    var newRow = table2.insertRow(table2.length);
+    cell1 = newRow.insertCell(0);
+    cell2 = newRow.insertCell(1);
+    cell3 = newRow.insertCell(2);
+                                
+    // add values to the cells
+    cell1.innerHTML = id;
+    cell2.innerHTML = titolo;
+    cell3.innerHTML = "<a class='btn btn-default' href=><span class='glyphicon glyphicon-remove'></span></a>";*/
+                           
+    $(bottone).parent().parent().remove();
+        
 }
