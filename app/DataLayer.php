@@ -24,4 +24,10 @@ class DataLayer extends Model
         return $opere;
     }
     
+    
+    public function getOperaByID($id) {
+        $opera1 = new Opera($id, "nome1", "autore1", "anno1", "100");
+        return $opera1;
+    }
+    
 }

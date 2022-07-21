@@ -68,10 +68,10 @@
             <div class="row top-buffer"/> 
 
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-8 col-md-offset-1">
                     <table id="tabella_elenco_opere" class="table table-striped table-hover table-responsive  table-sm" style="width:100%" data-toggle="table" data-search="true" data-show-columns="true" >
                         <col width='10%'>
-                        <col width='20%'>
+                        <col width='10%'>
                         <col width='10%'>
                         <col width='10%'>
                         <col width='10%'>
@@ -90,11 +90,11 @@
                             @foreach($opere as $opera)
                             <tr>
                                 <td hidden>{{ $opera->id }}</a></td>
-                                <td>{{ $opera->nome }}</a></td>
+                                <td onclick="location.href='{{route('opera.show',['opera'=>$opera->id])}}'">{{ $opera->nome }}</td>
                                 <td>{{ $opera->autore }}</td>
                                 <td>{{ $opera->visite }}</td>
                                 <td>
-                                    <a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-trash"></span> Cancella</a>
+                                    <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
                                 </td>
                             </tr>
                             @endforeach

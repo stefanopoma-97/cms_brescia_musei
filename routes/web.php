@@ -24,3 +24,9 @@ Route::get('/', ['as' => 'home', 'uses' => 'FrontController@getHome']); //contro
 /*Route::get('/', function () {
     return view('welcome');
 });*/
+
+
+//OPERA
+
+Route::resource('opera', 'OperaController', ['only' => ['show','index', 'edit', 'store', 'create', 'update']]);
+
