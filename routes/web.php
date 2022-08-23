@@ -21,9 +21,7 @@ use App\Http\Controllers\FrontController;
 Route::get('/', ['as' => 'home', 'uses' => 'FrontController@getHome']); //controller che manda sulla home page
 
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+Route::post('/', ['as' => 'home', 'uses' => 'FrontController@getHomeFilter']); //controller che manda sulla home page dopo filtro
 
 
 //OPERA

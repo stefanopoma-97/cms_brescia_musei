@@ -96,7 +96,7 @@
         @yield('corpo')
         
         
-        
+        <!--
         <div style="margin-top: 5em" class="container">
             <div class="row">
                 <footer class="page-footer font-small blue-grey lighten-5">
@@ -165,6 +165,7 @@
                 </footer>
             </div>
         </div>
+        -->
 
        
 

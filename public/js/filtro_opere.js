@@ -33,6 +33,17 @@ function filtra_raggruppamenti(select){
         
 }
 
+function filtra_opere_db(opere_selezionate){
+    var myForm = document.getElementById('form_crea_percorso');
+    var hiddenInput = document.createElement('input');
+
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'opere_selezionate';
+    hiddenInput.value = JSON.stringify(opere_selezionate);
+    myForm.appendChild(hiddenInput);
+    
+    console.log("array opere selezionate: "+opere_selezionate);
+}
 
 function filtra_opere(){
     //click su filtra, in base a cosa è presente nei ragruppamenti modifica la tabella opere
@@ -171,6 +182,98 @@ function click_modal(bottone, opere, opere_selezionate){
     $('#modal-button-success').click(function(){
         tab1_To_tab2(bottone, opere, opere_selezionate);
     });
+}
+
+function move_tab1_to_tab2(bottone, array_opere, array_opere_selezionate){
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
+    console.log("bottone cliccato: "+$(bottone).html());
+    var table2 = $("#tabella_elenco_opere_aggiunte");
+    var body_table2 = $("#tabella_elenco_opere_aggiunte_body");
+    var riga = $(bottone).parent().parent();
+    var id = $(bottone).parent().parent().find('.item_id').html();
+    
+    var j=-1;
+    for (let i = 0; i < array_opere.length; i++){
+        if (array_opere[i].id == id)
+            j=i;
+    }
+    if (j!=-1){
+        
+        body_table2.append(riga);
+       
+        array_opere_selezionate.push(array_opere[j]);
+        array_opere.splice(j, 1); 
+        
+        //fa comparire pulsante X
+        $('#tabella_elenco_opere_aggiunte_body td.item_bottone_delete').each(function() {
+              $(this).show();
+          });
+
+        $('#tabella_elenco_opere_aggiunte_body td.item_autore').each(function() {
+              $(this).hide();
+          });
+        $('#tabella_elenco_opere_aggiunte_body td.item_anno').each(function() {
+              $(this).hide();
+          });
+
+        $('#tabella_elenco_opere_aggiunte_body td.item_bottone').each(function() {
+              $(this).hide();
+          });
+    }
+    
+    
+    
+    
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
+    
+}
+
+function move_tab2_to_tab1(bottone, array_opere, array_opere_selezionate){
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
+    console.log("bottone cliccato: "+$(bottone).html());
+    var table1 = $("#tabella_elenco_opere");
+    var body_table1 = $("#tabella_elenco_opere_body");
+    var riga = $(bottone).parent().parent();
+    var id = $(bottone).parent().parent().find('.item_id').html();
+    
+    var j=-1;
+    for (let i = 0; i < array_opere_selezionate.length; i++){
+        if (array_opere_selezionate[i].id == id)
+            j=i;
+    }
+    if (j!=-1){
+        
+        body_table1.append(riga);
+       
+        array_opere.push(array_opere_selezionate[j]);
+        array_opere_selezionate.splice(j, 1); 
+        
+        //fa comparire pulsante X
+        $('#tabella_elenco_opere_body td.item_bottone_delete').each(function() {
+              $(this).hide();
+          });
+
+        $('#tabella_elenco_opere_body td.item_autore').each(function() {
+              $(this).show();
+          });
+        $('#tabella_elenco_opere_body td.item_anno').each(function() {
+              $(this).show();
+          });
+
+        $('#tabella_elenco_opere_body td.item_bottone').each(function() {
+              $(this).show();
+          });
+    }
+    
+    
+    
+    
+    console.log("array opere: "+array_opere);
+    console.log("array opere selezionate: "+array_opere_selezionate);
+    
 }
 
 

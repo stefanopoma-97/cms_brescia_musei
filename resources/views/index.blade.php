@@ -17,9 +17,13 @@
 
 @section('corpo')
 
-
+@if($_SERVER['REQUEST_METHOD']=="GET")
+<h1>GET method</h1>
+@else
+<h1>POST method</h1>
+@endif
         
-            <form id="form_crea_percorso" name="form_crea_percorso" method="get" action="{{ route('home') }}"/>
+            <form id="form_crea_percorso" name="form_crea_percorso" method="post" action="{{ route('home') }}"/>
                     
                 <div class="form-group row">
                     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
@@ -27,7 +31,6 @@
                         <select onchange="filtra_raggruppamenti(this)" class="form-control" id="raggruppamento" name="raggruppamento" placeholder="">
                             <option value="Qualsiasi">Qualsiasi</option>
                             <option value="Numero di visiste">Numero di visite</option>
-                            <option value="Numero di visiste">Autore</option>
                         </select>
                     </div>
                 </div>
@@ -41,19 +44,21 @@
                 </div>
                 <div class="form-group row">
                     @csrf
-                        <div class="col-md-12" style='display:none'>
+                        <div class="col-md-12" >
                             <div class="col-md-12 text-center">
                                 <input id="mySubmit" type="submit" value='Save' class="hidden" />
-                                <button onclick="filtra_raggruppamenti(this);" class="btn btn-info btn-toolbar">Filtra</button>
+                                <button onclick="filtra_opere_db(opere_selezionate);" class="btn btn-info btn-toolbar">Filtra</button>
                             </div>
                         </div>
                 </div>
             </form>
-            <div class="row">
+
+            <div class="row" style='display:none'>
                 <div class="col-md-12 text-center">
                     <button onclick="filtra_opere();" class="btn btn-info">Filtra</button>
                 </div>
             </div>
+
             <div class="row">
                         <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                             <div class="info-banner">
@@ -84,10 +89,11 @@
                                 <th>Anno</th>
                                 <th hidden>Visite</th>
                                 <th></th>
+                                <th hidden=""></th>
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="tabella_elenco_opere_body">
                             @foreach($opere as $opera)
                             <tr class="righe_tabella_opere">
                                 <td class="item_id" hidden>{{ $opera->id }}</a></td>
@@ -95,9 +101,17 @@
                                 <td class="item_autore">{{ $opera->autore }}</td>
                                 <td class="item_anno">{{ $opera->anno }}</td>
                                 <td hidden class="item_visite">{{ $opera->visite }}</td>
+                                @if($_SERVER['REQUEST_METHOD']=="GET")
                                 <td class="item_bottone">
                                     <a class="btn btn-disabled" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
                                 </td>
+                                @else
+                                <td class="item_bottone">
+                                    <a class="btn btn-success" href="#" onclick="move_tab1_to_tab2(this, opere, opere_selezionate)"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
+                                </td>
+                                @endif
+                                <td class="item_bottone_delete" hidden><a class='btn btn-default' onclick='move_tab2_to_tab1(this, opere, opere_selezionate)'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                
                             </tr>
                             @endforeach
 
@@ -116,14 +130,43 @@
                         <thead>
                             <tr>
                                 <th hidden>Id</th>
-                                <th>Titolo</th>
+                                @if($_SERVER['REQUEST_METHOD']=="GET")
+                                    <th hidden>Titolo</th>
+                                    @else
+                                    <th>Titolo</th>
+                                @endif
+                                <th hidden>Autore</th>
+                                <th hidden>Anno</th>
+                                <th hidden>Visite</th>
                                 <th hidden></th>
+                                <th ></th>
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="tabella_elenco_opere_aggiunte_body">
+                            @foreach($opere_selezionate as $op)
+                            <tr class="righe_tabella_opere_selezionate">
+                                <td class="item_id" hidden>{{ $op->id }}</a></td>
+                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$op->id])}}'">{{ $op->nome }}</td>
+                                <td class="item_autore" hidden>{{ $op->autore }}</td>
+                                <td class="item_anno" hidden="">{{ $op->anno }}</td>
+                                <td hidden class="item_visite" hidden>{{ $op->visite }}</td>
+                                @if($_SERVER['REQUEST_METHOD']=="GET")
+                                <td class="item_bottone" hidden="">
+                                    <a class="btn btn-disabled" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
+                                </td>
+                                @else
+                                <td class="item_bottone" hidden="">
+                                    <a class="btn btn-success" href="#" onclick="move_tab1_to_tab2(this, opere, opere_selezionate)"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
+                                </td>
+                                @endif
+                                <td class="item_bottone_delete"><a class='btn btn-default' onclick='move_tab2_to_tab1(this, opere, opere_selezionate)'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                
+                            </tr>
+                            
+                            
                            
-
+                           @endforeach
                         </tbody>
                         
 
@@ -164,7 +207,7 @@
             
 <script type="text/javascript">
 var opere = <?php echo json_encode($opere); ?>;
-var opere_selezionate = [];
+var opere_selezionate = <?php echo json_encode($opere_selezionate); ?>;
 </script> 
         
 @endsection
