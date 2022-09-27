@@ -23,7 +23,7 @@
 <h1>POST method</h1>
 @endif
         
-            <form id="form_crea_percorso" name="form_crea_percorso" method="post" action="{{ route('home') }}"/>
+            <form id="form_crea_percorso" name="form_crea_percorso" method="post" action="{{ route('filtro_percorsi') }}"/>
                     
                 <div class="form-group row">
                     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
