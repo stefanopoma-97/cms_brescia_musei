@@ -1,3 +1,31 @@
+1) Scaricare Java SE 11: https://www.oracle.com/java/technologies/downloads/#java16
+
+2) Scaricare Apache NetBeans (o altro IDE): https://netbeans.apache.org/download/index.html
+
+3) Scaricare Ampss
+
+4) Scaricare Composer: https://getcomposer.org/ Questa versione sembra non andare con php 8.X Quindi è meglio scaricare php 7.X https://windows.php.net/download#php-7.0 inserire la cartella estratta accanto alla cartella PHP creata da Ampp o Xampp
+
+5) Installare composer e selezionare il file php.exe nella cartella Ampss Il file php.exe deve essere quello associato alla versione 7.X
+
+6) Con il composer installare Laravell: composer global require "laravel/installer=~1.1”
+
+7) Eseguire i seguenti comandi nella directory del progetto composer install composer update
+
+8) cambia .env.example in .env (rimuovere la parola ".example")
+
+9) Controllare che il contenuto di .env sia questo: APP_NAME=Laravel APP_ENV=local APP_KEY= APP_DEBUG=true APP_URL=http://localhost
+
+LOG_CHANNEL=stack
+
+
+10) Eseguire i seguenti comandi: php artisan key:generate (il primo comando generera la key nel file env)
+
+11) nella directory del progetto lanciare il comando: composer require laudis/neo4j-php-client
+
+13) php artisan serve
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
