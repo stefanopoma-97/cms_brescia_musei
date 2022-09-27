@@ -24,6 +24,13 @@ Route::get('/', ['as' => 'home', 'uses' => 'FrontController@getHome']); //contro
 Route::post('/', ['as' => 'home', 'uses' => 'FrontController@getHomeFilter']); //controller che manda sulla home page dopo filtro
 
 
+//PERCORSI
+
+Route::get('filtro_percorsi', ['as' => 'filtro_percorsi', 'uses' => 'FrontController@percorsi']); //controller che manda sulla home page
+
+
+Route::post('filtro_percorsi', ['as' => 'filtro_percorsi', 'uses' => 'FrontController@percorsiFiltro']);
+
 //OPERA
 
 Route::resource('opera', 'OperaController', ['only' => ['show','index', 'edit', 'store', 'create', 'update']]);
