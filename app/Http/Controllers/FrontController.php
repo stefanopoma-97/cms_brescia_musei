@@ -74,22 +74,24 @@ class FrontController extends Controller
     
     //arrivo pagina creazione percorsi prima volta (GET)
     public function percorsi() {
-        error_log('contoller percorsi');
-        Log::info('contoller percorsi');
+        //error_log('contoller percorsi');
+        //Log::info('contoller percorsi');
         
         session_start(); //fa partire la sessione e rimanda alla view index
         $dl = new DataLayer();
         
-        dump("controller percorsi");
+        //dump("controller percorsi");
         //controlla che sia loggato
         if(isset($_SESSION['logged'])) {
             
         } else {
             
+            
             if (isset($_SESSION['categorie'])){
                 $categorie = $_SESSION['categorie'];
             }
             else {
+                dump("prendo categorie");
                 $categorie = $dl->getCategorie();
                 $_SESSION['categorie'] = $categorie;
             }
@@ -98,6 +100,7 @@ class FrontController extends Controller
                 $tipologie = $_SESSION['tipologie'];
             }
             else {
+                dump("prendo tipologie");
                 $tipologie = $dl->getTipologie();
                 $_SESSION['tipologie'] = $tipologie;
             }
@@ -106,6 +109,7 @@ class FrontController extends Controller
                 $date = $_SESSION['date'];
             }
             else {
+                dump("prendo date");
                 $date = $dl->getDate();
                 $_SESSION['date'] = $date;
             }
@@ -114,6 +118,7 @@ class FrontController extends Controller
                 $secoli = $_SESSION['secoli'];
             }
             else {
+                dump("prendo secoli");
                 $secoli = $dl->getSecoli();
                 $_SESSION['secoli'] = $secoli;
             }
@@ -122,6 +127,7 @@ class FrontController extends Controller
                 $luoghi = $_SESSION['luoghi'];
             }
             else {
+                dump("prendo luoghi");
                 $luoghi = $dl->getLuoghi();
                 $_SESSION['luoghi'] = $luoghi;
             }
@@ -130,15 +136,17 @@ class FrontController extends Controller
                 $autori = $_SESSION['autori'];
             }
             else {
-                $autori = $_SESSION['autori'];
+                dump("prendo autori");
+                $autori = $dl->getAutori();
                 $_SESSION['autori'] = $autori;
             }
             
             if (isset($_SESSION['eta'])){
-                $eta = $dl->getEta();
+                $eta = $_SESSION['eta'];
             }
             else {
-                $eta = $_SESSION['eta'];
+                dump("prendo eta");
+                $eta = $dl->getEta();
                 $_SESSION['eta'] = $eta;
             }
            
@@ -166,6 +174,19 @@ class FrontController extends Controller
                     ->with('autori',$autori)
                     ->with('eta',$eta)
                     ;
+            
+            /*return view('filtro_percorsi')->with('logged',false)->with('opere',$opere)
+                    ->with('opere_selezionate',$opere_selezionate)
+                    ->with('raggruppamento',$raggruppamento)
+                    ->with('raggruppamenti',$raggruppamenti)
+                    ->with('categorie',[])
+                    ->with('tipologie',[])
+                    ->with('date',[])
+                    ->with('secoli',[])
+                    ->with('luoghi',[])
+                    ->with('autori',[])
+                    ->with('eta',[])
+                    ;*/
         }
     }
     
@@ -174,22 +195,36 @@ class FrontController extends Controller
     public function ajaxDatiFiltro(){
         dump("contoller ricevuto ajax");
         error_log('contoller ricevuto ajax');
-        $dl = new DataLayer();
-        $categorie = $dl->getCategorie(); //id e nome
-        $tipologie = $dl->getTipologie();
-        $date = $dl->getDate();
-        $secoli = $dl->getSecoli();
-        $luoghi = $dl->getLuoghi();
-        $autori = $dl->getAutori();
-        $eta = $dl->getEta();
+        session_start();
+        $dl = new DataLyer();
         
-        $_SESSION['categorie'] = $categorie;
-        $_SESSION['tipologie'] = $tipologie;
-        $_SESSION['date'] = $date;
-        $_SESSION['secoli'] = $secoli;
-        $_SESSION['luoghi'] = $luoghi;
-        $_SESSION['autori'] = $autori;
-        $_SESSION['eta'] = $eta;
+        if (!isset($_SESSION['categorie'])){
+                $_SESSION['categorie'] = $dl->getCategorie();
+            }
+            
+            if (!isset($_SESSION['tipologie'])){
+                $_SESSION['tipologie'] = $dl->getTipologie();
+            }
+            
+            if (!isset($_SESSION['date'])){
+                $_SESSION['date'] = $dl->getDate();
+            }
+            
+            if (!isset($_SESSION['secoli'])){
+                $_SESSION['secoli'] = $dl->getSecoli();
+            }
+           
+            if (!isset($_SESSION['luoghi'])){
+                $_SESSION['luoghi'] = $dl->getLuoghi();
+            }
+            
+            if (!isset($_SESSION['autori'])){
+                $_SESSION['autori'] = $dl->getAutori();
+            }
+            
+            if (!isset($_SESSION['eta'])){
+                $_SESSION['eta'] = $dl->getEta();
+            }
         
        
         $response = array('output'=>true);

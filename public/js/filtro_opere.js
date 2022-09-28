@@ -4,7 +4,7 @@
  */
 
 function ajax_parametri_filtri(){
-    window.confirm("AJAX lanciato");
+    //window.confirm("AJAX lanciato");
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
