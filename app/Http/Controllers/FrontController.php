@@ -244,19 +244,56 @@ class FrontController extends Controller
             
         } else {
             
-            error_log("Messaggio");
             $raggruppamento = $request->input('raggruppamento');
-            $valore_categoria = $request->input('valore_raggruppamento_categoria');
+            
+            $categoria_selezionata = null;
+            $tipologia_selezionata = null;
+            $data_selezionata = null;
+            $secolo_selezionato = null;
+            $luogo_selezionato = null;
+            $autore_selezionato = null;
+            $eta_selezionata = null;
+            $sesso_selezionato = null;
+            
+           
+            if ($raggruppamento == "Tipologia"){
+                $tipologia_selezionata = $request->input('valore_raggruppamento_tipologia');
+            }
+            else if($raggruppamento == "Data di creazione"){
+                $data_selezionata = $request->input('valore_raggruppamento_data');
+            }
+            else if($raggruppamento == "Secolo"){
+                $secolo_selezionato = $request->input('valore_raggruppamento_secolo');
+            }
+            else if($raggruppamento == "Luogo di provenienza"){
+                $luogo_selezionato = $request->input('valore_raggruppamento_luogo');
+            }
+            else if($raggruppamento == "Autore"){
+                $autore_selezionato = $request->input('valore_raggruppamento_autore');
+            }
+            else if($raggruppamento == "Età visitatori"){
+               $eta_selezionata = $request->input('valore_raggruppamento_eta'); 
+            }
+            else if($raggruppamento == "Categoria visitatori"){
+                $categoria_selezionata = $request->input('valore_raggruppamento_categoria');
+            }
+            else if($raggruppamento == "Sesso visitatori"){
+                $sesso_selezionato = $request->input('valore_raggruppamento_sesso');
+            }
+            
+ 
+            
+            
             
             $opere_selezionate = $request->input('opere_selezionate');
             $opere_selezionate_array = json_decode(stripslashes($opere_selezionate),true);
-            dump($raggruppamento);
-            dump($valore_categoria);
-            dump($opere_selezionate_array);
+            //dump($raggruppamento);
+            //dump($valore_categoria);
+            //dump($opere_selezionate_array);
             //dump(gettype($opere_selezionate_array));
             
             
-            
+       
             $opere_selezionate_array_id = $dl->getIdSelezionate($opere_selezionate_array);
             dump($opere_selezionate_array_id);
             
@@ -294,7 +331,16 @@ class FrontController extends Controller
                     ->with('luoghi',$luoghi)
                     ->with('autori',$autori)
                     ->with('eta',$eta)
+                    ->with('categoria_selezionata',$categoria_selezionata)
+                    ->with('tipologia_selezionata',$tipologia_selezionata)
+                    ->with('data_selezionata',$data_selezionata)
+                    ->with('secolo_selezionato',$secolo_selezionato)
+                    ->with('luogo_selezionato',$luogo_selezionato)
+                    ->with('autore_selezionato',$autore_selezionato)
+                    ->with('eta_selezionata',$eta_selezionata)
+                    ->with('sesso_selezionato',$sesso_selezionato)            
                     ;
+            
         }
     }
 }

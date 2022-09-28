@@ -62,6 +62,13 @@
                                         <option value="{{$c->get('tipologia')}}">{{$c->get('tipologia')}}</option>                                
                                 @endforeach   
                             @else
+                                @foreach ($tipologie as $c)
+                                    @if ($tipologia_selezionata == $c->get('tipologia'))
+                                        <option selected value="{{$c->get('tipologia')}}">{{$c->get('tipologia')}}</option>   
+                                    @else
+                                        <option value="{{$c->get('tipologia')}}">{{$c->get('tipologia')}}</option>
+                                    @endif
+                                @endforeach   
                             @endif
                         </select>
                         <select class="form-control select_valori" id="valore_raggruppamento_data" name="valore_raggruppamento_data" placeholder="">
@@ -70,6 +77,13 @@
                                         <option value="{{$c->get('anno')}}">{{$c->get('anno')}}</option>                                
                                 @endforeach   
                             @else
+                                @foreach ($date as $c)
+                                        @if ($data_selezionata == $c->get('anno'))
+                                            <option selected="" value="{{$c->get('anno')}}">{{$c->get('anno')}}</option>    
+                                        @else
+                                            <option value="{{$c->get('anno')}}">{{$c->get('anno')}}</option> 
+                                        @endif
+                                @endforeach   
                             @endif
                         </select>
                         <select class="form-control select_valori" id="valore_raggruppamento_secolo" name="valore_raggruppamento_secolo" placeholder="">
@@ -78,6 +92,13 @@
                                         <option value="{{$c->get('secolo')}}">{{$c->get('secolo')}}</option>                                
                                 @endforeach   
                             @else
+                                @foreach ($secoli as $c)
+                                        @if ($secolo_selezionato == $c->get('secolo'))
+                                            <option selected="" value="{{$c->get('secolo')}}">{{$c->get('secolo')}}</option>   
+                                        @else
+                                            <option value="{{$c->get('secolo')}}">{{$c->get('secolo')}}</option>
+                                        @endif
+                                @endforeach  
                             @endif
                         </select>
                         <select class="form-control select_valori" id="valore_raggruppamento_luogo" name="valore_raggruppamento_luogo" placeholder="">
@@ -86,6 +107,13 @@
                                         <option value="{{$c->get('luogo')}}">{{$c->get('luogo')}}</option>                                
                                 @endforeach   
                             @else
+                                @foreach ($luoghi as $c)
+                                        @if ($luogo_selezionato == $c->get('luogo'))
+                                            <option selected="" value="{{$c->get('luogo')}}">{{$c->get('luogo')}}</option>    
+                                        @else
+                                            <option value="{{$c->get('luogo')}}">{{$c->get('luogo')}}</option> 
+                                        @endif
+                                @endforeach 
                             @endif
                         </select>
                         <select class="form-control select_valori" id="valore_raggruppamento_autore" name="valore_raggruppamento_autore" placeholder="">
@@ -94,15 +122,29 @@
                                         <option value="{{$c->get('id')}}">{{$c->get('nome')}}</option>                                
                                 @endforeach   
                             @else
+                                @foreach ($autori as $c)
+                                        @if ($autore_selezionato == $c->get('id'))
+                                            <option selected="" value="{{$c->get('id')}}">{{$c->get('nome')}}</option>    
+                                        @else
+                                            <option value="{{$c->get('id')}}">{{$c->get('nome')}}</option>  
+                                        @endif
+                                @endforeach
                             @endif
                         </select>
                        
                         <select class="form-control select_valori" id="valore_raggruppamento_eta" name="valore_raggruppamento_eta" placeholder="">
-                            @if(empty($eta_selezionato))
+                            @if(empty($eta_selezionata))
                                 @foreach ($eta as $c)
                                         <option value="{{$c->get('eta')}}">{{$c->get('eta')}}</option>                                
                                 @endforeach   
                             @else
+                                @foreach ($eta as $c)
+                                        @if ($eta_selezionata == $c->get('eta'))
+                                            <option selected="" value="{{$c->get('eta')}}">{{$c->get('eta')}}</option>   
+                                        @else
+                                            <option value="{{$c->get('eta')}}">{{$c->get('eta')}}</option>  
+                                        @endif
+                                @endforeach
                             @endif
                         </select>
                         <select class="form-control select_valori" id="valore_raggruppamento_categoria" name="valore_raggruppamento_categoria" placeholder="">
@@ -111,12 +153,34 @@
                                         <option value="{{$c->get('id')}}">{{$c->get('nome')}}</option>                                
                                 @endforeach   
                             @else
+                                @foreach ($categorie as $c)
+                                        @if ($categoria_selezionata == $c->get('id'))
+                                            <option selected="" value="{{$c->get('id')}}">{{$c->get('nome')}}</option>    
+                                        @else
+                                            <option value="{{$c->get('id')}}">{{$c->get('nome')}}</option>   
+                                        @endif
+                                @endforeach
                             @endif
                         </select>
                         <select class="form-control select_valori" id="valore_raggruppamento_sesso" name="valore_raggruppamento_sesso" placeholder="">
-                            <option value="M">Maschio</option>
-                            <option value="F">Femmina</option>
-                            <option value="N">Non specificato</option>
+                            @if ($sesso_selezionato == 'M')
+                                <option selected value="M">Maschio</option>
+                            @else
+                                <option value="M">Maschio</option>
+                            @endif
+                            
+                            @if ($sesso_selezionato == 'F')
+                                <option selected value="F">Femmina</option>
+                            @else
+                                <option value="F">Femmina</option>
+                            @endif
+                            
+                            @if ($sesso_selezionato == 'N')
+                                <option selected value="N">Non specificato</option>
+                            @else
+                                <option value="N">Non specificato</option>
+                            @endif
+                            
                         </select>
                     </div>
                 </div>
@@ -284,6 +348,7 @@
 
             
 <script type="text/javascript">
+filtra_raggruppamenti(document.getElementById("raggruppamento"));
 var opere = <?php echo json_encode($opere); ?>;
 var opere_selezionate = <?php echo json_encode($opere_selezionate); ?>;
 </script> 
