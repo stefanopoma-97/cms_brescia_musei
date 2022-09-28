@@ -8,38 +8,33 @@ function ajax_parametri_filtri(){
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+            },
         });
+        
         $.ajax({
-
-                type: 'POST',
-
-                url: '/ajaxParametri',
-
-                //data: {categorie:categorie},
-
-                dataType: "json",
-
-                success: function (data) {
-
-                    window.confirm("HO RICEVUTO: citta:"+data.categorie);
-                    data.categorie.forEach(function(c) {
-                        $('#valore_raggruppamento_categoria').append(new Option(c.nome, c.id));
-                      });
-                    
-
-                    
-                },
-                
-                error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
-                    window.confirm("fail: "+data.error);
-                    window.confirm("fail: "+data.debug);
-                } 
-
-               
-
-            });
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "/ajaxParametri",
+            dataType: "text",
+            //data: { name: "John" },
+            success:function (data) {
+                //window.confirm("SUCCESS");
+                //window.confirm("HO RICEVUTO:"+data.output);
+            }, //handle success calls},
+            error: function(XMLHttpRequest, textStatus, errorThrown, data) { 
+                    window.confirm("ERROR");
+                    alert("Status: " + textStatus); 
+                    alert("Error: " + errorThrown);
+                    alert("Error: " + XMLHttpRequest);
+                    //alert(data);
+                    //alert(data.code);
+                    //window.confirm("fail: "+errorThrown);
+                    //window.confirm("fail: "+data.debug);
+                }
+        });
+        
 }
 
 function hide_valori(){

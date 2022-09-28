@@ -7,6 +7,9 @@ use App\DataLayer;
 use Laudis\Neo4j\Authentication\Authenticate;
 use Laudis\Neo4j\ClientBuilder;
 use Laudis\Neo4j\Contracts\TransactionInterface;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Response;
+
 
 class FrontController extends Controller
 {
@@ -71,32 +74,74 @@ class FrontController extends Controller
     
     //arrivo pagina creazione percorsi prima volta (GET)
     public function percorsi() {
+        error_log('contoller percorsi');
+        Log::info('contoller percorsi');
         
         session_start(); //fa partire la sessione e rimanda alla view index
         $dl = new DataLayer();
-
+        
+        dump("controller percorsi");
         //controlla che sia loggato
         if(isset($_SESSION['logged'])) {
             
         } else {
-            /*$categorie = $dl->getCategorie(); //id e nome
-            $tipologie = $dl->getTipologie();
-            $date = $dl->getDate();
-            $secoli = $dl->getSecoli();
-            $luoghi = $dl->getLuoghi();
-            $autori = $dl->getAutori();
-            $eta = $dl->getEta();
-            //dump($categorie[0]->get('id'));
-            //dump(count($categorie));
-           
             
-            $_SESSION['categorie'] = $categorie;
-            $_SESSION['tipologie'] = $tipologie;
-            $_SESSION['date'] = $date;
-            $_SESSION['secoli'] = $secoli;
-            $_SESSION['luoghi'] = $luoghi;
-            $_SESSION['autori'] = $autori;
-            $_SESSION['eta'] = $eta;*/
+            if (isset($_SESSION['categorie'])){
+                $categorie = $_SESSION['categorie'];
+            }
+            else {
+                $categorie = $dl->getCategorie();
+                $_SESSION['categorie'] = $categorie;
+            }
+            
+            if (isset($_SESSION['tipologie'])){
+                $tipologie = $_SESSION['tipologie'];
+            }
+            else {
+                $tipologie = $dl->getTipologie();
+                $_SESSION['tipologie'] = $tipologie;
+            }
+            
+            if (isset($_SESSION['date'])){
+                $date = $_SESSION['date'];
+            }
+            else {
+                $date = $dl->getDate();
+                $_SESSION['date'] = $date;
+            }
+            
+            if (isset($_SESSION['secoli'])){
+                $secoli = $_SESSION['secoli'];
+            }
+            else {
+                $secoli = $dl->getSecoli();
+                $_SESSION['secoli'] = $secoli;
+            }
+            
+            if (isset($_SESSION['luoghi'])){
+                $luoghi = $_SESSION['luoghi'];
+            }
+            else {
+                $luoghi = $dl->getLuoghi();
+                $_SESSION['luoghi'] = $luoghi;
+            }
+            
+            if (isset($_SESSION['autori'])){
+                $autori = $_SESSION['autori'];
+            }
+            else {
+                $autori = $_SESSION['autori'];
+                $_SESSION['autori'] = $autori;
+            }
+            
+            if (isset($_SESSION['eta'])){
+                $eta = $dl->getEta();
+            }
+            else {
+                $eta = $_SESSION['eta'];
+                $_SESSION['eta'] = $eta;
+            }
+           
             
             
             $opere = $dl->getOpere();
@@ -108,21 +153,8 @@ class FrontController extends Controller
                 "Meno visitate", "Età visitatori", "Categoria visitatori", "Sesso visitatori"];
              
              $raggruppamento = "Qualsiasi";
-            
+                         
             return view('filtro_percorsi')->with('logged',false)->with('opere',$opere)
-                    ->with('opere_selezionate',$opere_selezionate)
-                    ->with('raggruppamento',$raggruppamento)
-                    ->with('raggruppamenti',$raggruppamenti)
-                    ->with('categorie',[])
-                    ->with('tipologie',[])
-                    ->with('date',[])
-                    ->with('secoli',[])
-                    ->with('luoghi',[])
-                    ->with('autori',[])
-                    ->with('eta',[])
-                    ;
-             
-            /*return view('filtro_percorsi')->with('logged',false)->with('opere',$opere)
                     ->with('opere_selezionate',$opere_selezionate)
                     ->with('raggruppamento',$raggruppamento)
                     ->with('raggruppamenti',$raggruppamenti)
@@ -133,7 +165,7 @@ class FrontController extends Controller
                     ->with('luoghi',$luoghi)
                     ->with('autori',$autori)
                     ->with('eta',$eta)
-                    ;*/
+                    ;
         }
     }
     
@@ -141,28 +173,28 @@ class FrontController extends Controller
     ////AJAX
     public function ajaxDatiFiltro(){
         dump("contoller ricevuto ajax");
+        error_log('contoller ricevuto ajax');
         $dl = new DataLayer();
         $categorie = $dl->getCategorie(); //id e nome
-        /*$tipologie = $dl->getTipologie();
+        $tipologie = $dl->getTipologie();
         $date = $dl->getDate();
         $secoli = $dl->getSecoli();
         $luoghi = $dl->getLuoghi();
         $autori = $dl->getAutori();
-        $eta = $dl->getEta();*/
+        $eta = $dl->getEta();
         
-        $tipologie = null;
-        $date = null;
-        $secoli = null;
-        $luoghi = null;
-        $autori = null;
-        $eta =null;
+        $_SESSION['categorie'] = $categorie;
+        $_SESSION['tipologie'] = $tipologie;
+        $_SESSION['date'] = $date;
+        $_SESSION['secoli'] = $secoli;
+        $_SESSION['luoghi'] = $luoghi;
+        $_SESSION['autori'] = $autori;
+        $_SESSION['eta'] = $eta;
         
-        //$response = array('categorie'=>$categorie);
+       
+        $response = array('output'=>true);
+        return response()->json($response); 
         
-        $response = array('categorie'=>"1", 'citta'=>"bo");
-        return response()->json($response); //mando indietro json
-        
-
     }
     
     

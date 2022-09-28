@@ -24,7 +24,7 @@
 @endif
         
             <form id="form_crea_percorso" name="form_crea_percorso" method="post" action="{{ route('filtro_percorsi') }}"/>
-                    
+            @csrf   
                 <div class="form-group row">
                     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <label for="raggruppamento">Criterio di raggruppamento:</label>
@@ -284,7 +284,6 @@
 
             
 <script type="text/javascript">
-ajax_parametri_filtri()
 var opere = <?php echo json_encode($opere); ?>;
 var opere_selezionate = <?php echo json_encode($opere_selezionate); ?>;
 </script> 

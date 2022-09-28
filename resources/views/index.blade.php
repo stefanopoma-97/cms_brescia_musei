@@ -20,6 +20,10 @@
         <a class="btn btn-info" href="{{ route('filtro_percorsi') }}">Crea un nuovo percorso</a>
     </div>
 </div>
-        
+
+
+<script type="text/javascript">
+ajax_parametri_filtri();
+</script> 
         
 @endsection
