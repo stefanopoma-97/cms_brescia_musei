@@ -163,6 +163,7 @@ function filtra_raggruppamenti(select){
         
 }
 
+//inserisce opere selezionate nella form
 function filtra_opere_db(opere_selezionate){
     var myForm = document.getElementById('form_crea_percorso');
     var hiddenInput = document.createElement('input');
@@ -339,17 +340,42 @@ function move_tab1_to_tab2(bottone, array_opere, array_opere_selezionate){
         $('#tabella_elenco_opere_aggiunte_body td.item_bottone_delete').each(function() {
               $(this).show();
           });
-
+        $('#tabella_elenco_opere_aggiunte_body td.item_tipologia').each(function() {
+              $(this).hide();
+          });
         $('#tabella_elenco_opere_aggiunte_body td.item_autore').each(function() {
               $(this).hide();
           });
         $('#tabella_elenco_opere_aggiunte_body td.item_anno').each(function() {
               $(this).hide();
           });
-
+        $('#tabella_elenco_opere_aggiunte_body td.item_secolo').each(function() {
+              $(this).hide();
+          });
+          $('#tabella_elenco_opere_aggiunte_body td.item_luogo').each(function() {
+              $(this).hide();
+          });
+          $('#tabella_elenco_opere_aggiunte_body td.item_visite').each(function() {
+              $(this).hide();
+          });
+          $('#tabella_elenco_opere_aggiunte_body td.item_tempo').each(function() {
+              $(this).hide();
+          });
+          $('#tabella_elenco_opere_aggiunte_body td.item_per_categoria').each(function() {
+              $(this).hide();
+          });
+          $('#tabella_elenco_opere_aggiunte_body td.item_per_eta').each(function() {
+              $(this).hide();
+          });
+          $('#tabella_elenco_opere_aggiunte_body td.item_per_sesso').each(function() {
+              $(this).hide();
+          });
         $('#tabella_elenco_opere_aggiunte_body td.item_bottone').each(function() {
               $(this).hide();
           });
+          
+          
+          
     }
     
     
@@ -389,7 +415,7 @@ function move_tab2_to_tab1(bottone, array_opere, array_opere_selezionate){
         $('#tabella_elenco_opere_body td.item_autore').each(function() {
               $(this).show();
           });
-        $('#tabella_elenco_opere_body td.item_anno').each(function() {
+        $('#tabella_elenco_opere_body td.item_tipologia').each(function() {
               $(this).show();
           });
 

@@ -163,23 +163,30 @@
                             @endif
                         </select>
                         <select class="form-control select_valori" id="valore_raggruppamento_sesso" name="valore_raggruppamento_sesso" placeholder="">
-                            @if ($sesso_selezionato == 'M')
-                                <option selected value="M">Maschio</option>
-                            @else
+                            @if(empty($sesso_selezionato))
                                 <option value="M">Maschio</option>
-                            @endif
-                            
-                            @if ($sesso_selezionato == 'F')
-                                <option selected value="F">Femmina</option>
-                            @else
                                 <option value="F">Femmina</option>
+                                <option value="N">Non specificato</option>
+                            @else
+                                @if ($sesso_selezionato == 'M')
+                                    <option selected value="M">Maschio</option>
+                                @else
+                                    <option value="M">Maschio</option>
+                                @endif
+
+                                @if ($sesso_selezionato == 'F')
+                                    <option selected value="F">Femmina</option>
+                                @else
+                                    <option value="F">Femmina</option>
+                                @endif
+
+                                @if ($sesso_selezionato == 'N')
+                                    <option selected value="N">Non specificato</option>
+                                @else
+                                    <option value="N">Non specificato</option>
+                                @endif
                             @endif
                             
-                            @if ($sesso_selezionato == 'N')
-                                <option selected value="N">Non specificato</option>
-                            @else
-                                <option value="N">Non specificato</option>
-                            @endif
                             
                         </select>
                     </div>
@@ -227,9 +234,16 @@
                             <tr>
                                 <th hidden>Id</th>
                                 <th>Titolo</th>
+                                <th>Tipologia</th>
                                 <th>Autore</th>
-                                <th>Anno</th>
+                                <th hidden>Anno</th>
+                                <th hidden>Secolo</th>
+                                <th hidden>Luogo</th>
                                 <th hidden>Visite</th>
+                                <th hidden>Tempo</th>
+                                <th hidden>% Categoria</th>
+                                <th hidden>% Età</th>
+                                <th hidden>% Sesso</th>
                                 <th></th>
                                 <th hidden=""></th>
                             </tr>
@@ -238,11 +252,18 @@
                         <tbody id="tabella_elenco_opere_body">
                             @foreach($opere as $opera)
                             <tr class="righe_tabella_opere">
-                                <td class="item_id" hidden>{{ $opera->id }}</a></td>
-                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$opera->id])}}'">{{ $opera->nome }}</td>
-                                <td class="item_autore">{{ $opera->autore }}</td>
-                                <td class="item_anno">{{ $opera->anno }}</td>
-                                <td hidden class="item_visite">{{ $opera->visite }}</td>
+                                <td class="item_id" hidden>{{ $opera->get('id') }}</a></td>
+                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=> $opera->get('id')])}}'">{{  $opera->get('titolo') }}</td>
+                                <td class="item_tipologia">{{ $opera->get('tipologia') }}</td>
+                                <td class="item_autore">{{ $opera->get('autore') }}</td>
+                                <td hidden class="item_anno">{{ $opera->get('anno') }}</td>
+                                <td hidden class="item_secolo"></td>
+                                <td hidden class="item_luogo"></td>
+                                <td hidden class="item_visite"></td>
+                                <td hidden class="item_tempo"></td>
+                                <td hidden class="item_per_categoria"></td>
+                                <td hidden class="item_per_eta"></td>
+                                <td hidden class="item_per_sesso"></td>
                                 @if($_SERVER['REQUEST_METHOD']=="GET")
                                 <td class="item_bottone">
                                     <a class="btn btn-disabled" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
@@ -277,9 +298,16 @@
                                     @else
                                     <th>Titolo</th>
                                 @endif
+                                <th hidden>Tipologia</th>
                                 <th hidden>Autore</th>
                                 <th hidden>Anno</th>
+                                <th hidden>Secolo</th>
+                                <th hidden>Luogo</th>
                                 <th hidden>Visite</th>
+                                <th hidden>Tempo</th>
+                                <th hidden>% Categoria</th>
+                                <th hidden>% Età</th>
+                                <th hidden>% Sesso</th>
                                 <th hidden></th>
                                 <th ></th>
                             </tr>
@@ -290,9 +318,16 @@
                             <tr class="righe_tabella_opere_selezionate">
                                 <td class="item_id" hidden>{{ $op->id }}</a></td>
                                 <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$op->id])}}'">{{ $op->nome }}</td>
-                                <td class="item_autore" hidden>{{ $op->autore }}</td>
-                                <td class="item_anno" hidden="">{{ $op->anno }}</td>
-                                <td hidden class="item_visite" hidden>{{ $op->visite }}</td>
+                                <td hidden class="item_tipologia"></td>
+                                <td hidden class="item_autore"></td>
+                                <td hidden class="item_anno"></td>
+                                <td hidden class="item_secolo"></td>
+                                <td hidden class="item_luogo"></td>
+                                <td hidden class="item_visite"></td>
+                                <td hidden class="item_tempo"></td>
+                                <td hidden class="item_per_categoria"></td>
+                                <td hidden class="item_per_eta"></td>
+                                <td hidden class="item_per_sesso"></td>
                                 @if($_SERVER['REQUEST_METHOD']=="GET")
                                 <td class="item_bottone" hidden="">
                                     <a class="btn btn-disabled" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
@@ -350,7 +385,8 @@
 <script type="text/javascript">
 filtra_raggruppamenti(document.getElementById("raggruppamento"));
 var opere = <?php echo json_encode($opere); ?>;
-var opere_selezionate = <?php echo json_encode($opere_selezionate); ?>;
+var opere_selezionate = <?php echo json_encode($opere_selezionate)?>;
+var raggruppamento = <?php echo json_encode($raggruppamento)?>;
 </script> 
         
 @endsection

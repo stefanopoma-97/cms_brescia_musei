@@ -284,7 +284,7 @@ class FrontController extends Controller
  
             
             
-            
+            //estraggo array di opere selezionate
             $opere_selezionate = $request->input('opere_selezionate');
             $opere_selezionate_array = json_decode(stripslashes($opere_selezionate),true);
             //dump($raggruppamento);
@@ -293,9 +293,19 @@ class FrontController extends Controller
             //dump(gettype($opere_selezionate_array));
             
             
-       
+            //da array di opere selezionate estraggo array di ID
             $opere_selezionate_array_id = $dl->getIdSelezionate($opere_selezionate_array);
-            dump($opere_selezionate_array_id);
+            //dump("array id opere selezionate: "+$opere_selezionate_array_id);
+            
+            //prendo opere, scartando quelle dell'array di ID
+            $opere = $dl->getOpereMenoSelezionate($opere_selezionate_array_id);
+            dump("Opere");
+            dump($opere);
+            
+            //prendo opere selezionate da array di ID
+            $opere_selezionate = $dl->getOpereSelezionate($opere_selezionate_array_id);
+            dump("Opere selezionate");
+            dump($opere_selezionate);
             
             
             
@@ -308,11 +318,7 @@ class FrontController extends Controller
             $autori = $_SESSION['autori'];
             $eta = $_SESSION['eta'];
             
-            $opere = $dl->getOpereMenoSelezionate($opere_selezionate_array_id);
-            dump($opere);
             
-            $opere_selezionate = $dl->getOpereSelezionate($opere_selezionate_array_id);
-            dump($opere_selezionate);
                   
             
             $raggruppamenti = ["Qualsiasi", "Tipologia", "Data di creazione", "Secolo", "Luogo di provenienza", "Autore", "Visite totali",
