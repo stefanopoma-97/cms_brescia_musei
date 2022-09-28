@@ -293,6 +293,9 @@ class FrontController extends Controller
             //dump(gettype($opere_selezionate_array));
             
             
+            //dump(gettype($opere_selezionate_array[0]->id));
+            
+            
             //da array di opere selezionate estraggo array di ID
             $opere_selezionate_array_id = $dl->getIdSelezionate($opere_selezionate_array);
             //dump("array id opere selezionate: "+$opere_selezionate_array_id);

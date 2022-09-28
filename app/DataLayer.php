@@ -83,6 +83,15 @@ class DataLayer extends Model
     }
     
     public function getOpereSelezionate($array_id) {
+        
+        $results = ($this->client->run('
+            MATCH (o:Opera)
+            WITH o.id as id, o.titolo as titolo, o.autore as autore, o.tipologia as tipologia, o.anno as anno, o.secolo as secolo, o.provenienza as luogo, null as visite, null as tempo, null as per_categoria, null as per_eta, null as per_sesso 
+            WHERE id IN $array_id
+            RETURN id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
+            ORDER BY id ASC', ['array_id' => $array_id]));
+        
+        /*
         $opera1 = new Opera("1", "nome1", "autore1", "anno1", "100");
         $opera2 = new Opera("2","nome2", "autore2", "anno2", "2000");
         $opera3 = new Opera("3","nome3", "autore3", "anno3", "500");
@@ -94,8 +103,16 @@ class DataLayer extends Model
             if((in_array($value->id, $array_id)))
                 array_push($opere, $value);
           }
+         * */
+        
+        $opere = array();
+        foreach ($results as $value) {
+           if((in_array($value->get('id'), $array_id)))
+               array_push($opere, $value);
+         }
         
         return $opere;
+         
     }
     
     
@@ -106,8 +123,8 @@ class DataLayer extends Model
     
     public function getIdSelezionate($array){
         $id = array();
-        foreach ($array as $value) {
-            array_push($id, $value['id']);
+        foreach ($array as $v) {
+            array_push($id, $v['id']);
           }
         return $id;
     }

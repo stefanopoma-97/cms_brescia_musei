@@ -316,8 +316,8 @@
                         <tbody id="tabella_elenco_opere_aggiunte_body">
                             @foreach($opere_selezionate as $op)
                             <tr class="righe_tabella_opere_selezionate">
-                                <td class="item_id" hidden>{{ $op->id }}</a></td>
-                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$op->id])}}'">{{ $op->nome }}</td>
+                                <td class="item_id" hidden>{{ $op->get('id') }}</a></td>
+                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$op->get('id')])}}'">{{ $op->get('titolo') }}</td>
                                 <td hidden class="item_tipologia"></td>
                                 <td hidden class="item_autore"></td>
                                 <td hidden class="item_anno"></td>
