@@ -29,16 +29,94 @@
                     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <label for="raggruppamento">Criterio di raggruppamento:</label>
                         <select onchange="filtra_raggruppamenti(this)" class="form-control" id="raggruppamento" name="raggruppamento" placeholder="">
-                            <option value="Qualsiasi">Qualsiasi</option>
-                            <option value="Numero di visiste">Numero di visite</option>
+                            @foreach ($raggruppamenti as $r)
+                                @if($r == $raggruppamento)
+                                    <option selected="" value="{{$r}}">{{$r}}</option>
+                                @else
+                                    <option value="{{$r}}">{{$r}}</option>                                
+                                @endif
+                            @endforeach
+                            <!--<option value="Qualsiasi">Qualsiasi</option>
+                            <option value="Tipologia">Tipologia</option>
+                            <option  value="Data di creazione">Data di creazione</option>
+                            <option value="Secolo">Secolo</option>
+                            <option value="Luogo di provenienza">Luogo di provenienza</option>
+                            <option value="Autore">Autore</option>
+                            <option value="Visite totali">Visite totali</option>
+                            <option value="Tempo totale delle visite">Tempo totale delle visite</option>
+                            <option value="Visite nell'ultimo anno">Visite nell'ultimo anno</option>
+                            <option value="Tempo totale delle visite dell'ultimo anno">Tempo totale delle visite dell'ultimo anno</option>
+                            <option value="Meno visitate">Meno visitate</option>
+                            <option value="Età visitatori">Età visitatori</option>
+                            <option value="Categoria visitatori">Categoria visitatori</option>
+                            <option value="Sesso visitatori">Sesso viistatori</option>-->
                         </select>
                     </div>
                 </div>
                 <div id="div_valore_raggruppamento_multi_select" class="form-group row" style='display:none'>
                     <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <label for="valore raggruppamento">Valore:</label>
-                        <select class="form-control" id="valore_raggruppamento" name="valore_raggruppamento" placeholder="">
-                            
+                        <select class="form-control select_valori" id="valore_raggruppamento_tipologia" name="valore_raggruppamento_tipologia" placeholder="">
+                            @if(empty($tipologia_selezionata))
+                                @foreach ($tipologie as $c)
+                                        <option value="{{$c->get('tipologia')}}">{{$c->get('tipologia')}}</option>                                
+                                @endforeach   
+                            @else
+                            @endif
+                        </select>
+                        <select class="form-control select_valori" id="valore_raggruppamento_data" name="valore_raggruppamento_data" placeholder="">
+                            @if(empty($data_selezionata))
+                                @foreach ($date as $c)
+                                        <option value="{{$c->get('anno')}}">{{$c->get('anno')}}</option>                                
+                                @endforeach   
+                            @else
+                            @endif
+                        </select>
+                        <select class="form-control select_valori" id="valore_raggruppamento_secolo" name="valore_raggruppamento_secolo" placeholder="">
+                            @if(empty($secolo_selezionato))
+                                @foreach ($secoli as $c)
+                                        <option value="{{$c->get('secolo')}}">{{$c->get('secolo')}}</option>                                
+                                @endforeach   
+                            @else
+                            @endif
+                        </select>
+                        <select class="form-control select_valori" id="valore_raggruppamento_luogo" name="valore_raggruppamento_luogo" placeholder="">
+                            @if(empty($luogo_selezionato))
+                                @foreach ($luoghi as $c)
+                                        <option value="{{$c->get('luogo')}}">{{$c->get('luogo')}}</option>                                
+                                @endforeach   
+                            @else
+                            @endif
+                        </select>
+                        <select class="form-control select_valori" id="valore_raggruppamento_autore" name="valore_raggruppamento_autore" placeholder="">
+                            @if(empty($autore_selezionato))
+                                @foreach ($autori as $c)
+                                        <option value="{{$c->get('id')}}">{{$c->get('nome')}}</option>                                
+                                @endforeach   
+                            @else
+                            @endif
+                        </select>
+                       
+                        <select class="form-control select_valori" id="valore_raggruppamento_eta" name="valore_raggruppamento_eta" placeholder="">
+                            @if(empty($eta_selezionato))
+                                @foreach ($eta as $c)
+                                        <option value="{{$c->get('eta')}}">{{$c->get('eta')}}</option>                                
+                                @endforeach   
+                            @else
+                            @endif
+                        </select>
+                        <select class="form-control select_valori" id="valore_raggruppamento_categoria" name="valore_raggruppamento_categoria" placeholder="">
+                            @if(empty($categoria_selezionata))
+                                @foreach ($categorie as $c)
+                                        <option value="{{$c->get('id')}}">{{$c->get('nome')}}</option>                                
+                                @endforeach   
+                            @else
+                            @endif
+                        </select>
+                        <select class="form-control select_valori" id="valore_raggruppamento_sesso" name="valore_raggruppamento_sesso" placeholder="">
+                            <option value="M">Maschio</option>
+                            <option value="F">Femmina</option>
+                            <option value="N">Non specificato</option>
                         </select>
                     </div>
                 </div>
@@ -206,6 +284,7 @@
 
             
 <script type="text/javascript">
+ajax_parametri_filtri()
 var opere = <?php echo json_encode($opere); ?>;
 var opere_selezionate = <?php echo json_encode($opere_selezionate); ?>;
 </script> 

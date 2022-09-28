@@ -18,6 +18,21 @@ use Laudis\Neo4j\Contracts\TransactionInterface;
 //AUTENTICAZIONE
 class DataLayer extends Model
 {
+   
+    private $client;
+
+    public function __construct()
+  {
+    $builder = ClientBuilder::create();
+    // A client manages the drivers as configured by the builder.
+    $this->client = $builder
+        ->withDriver('bolt', 'bolt://neo4j:neo4j_cms_brescia@localhost') // creates a bolt driver
+        ->withDefaultDriver('bolt')
+        ->build();
+  }
+  
+
+
     public function getOpere() {
         
         $client = ClientBuilder::create()
@@ -83,6 +98,73 @@ class DataLayer extends Model
             array_push($id, $value['id']);
           }
         return $id;
+    }
+    
+    //ritorna: id, nome
+    public function getCategorie(){
+        
+        $results = ($this->client->run('MATCH (c:Categoria)
+            WITH distinct c.nome_categoria as nome, c.id as id
+            RETURN id, nome'));
+        return $results;
+    }
+    
+    //ritorno: tipologia
+    public function getTipologie(){
+        
+        $results = ($this->client->run('MATCH (o:Opera)
+            WITH distinct o.tipologia as tipologia
+            RETURN tipologia'));
+        return $results;
+    }
+    
+    //ritorno: anno
+    public function getDate(){
+        
+        $results = ($this->client->run('MATCH (o:Opera)
+            WITH distinct o.anno as anno
+            RETURN anno'));
+        return $results;
+    }
+    
+    //ritorno: secolo
+    public function getSecoli(){
+        
+        $results = ($this->client->run('MATCH (o:Opera)
+            WITH distinct o.secolo as secolo
+            WHERE secolo IS NOT NULL
+            RETURN secolo'));
+        return $results;
+    }
+    
+    //ritorno: luogo
+    public function getLuoghi(){
+        
+        $results = ($this->client->run('MATCH (o:Opera)
+            WITH distinct o.provenienza as luogo
+            WHERE luogo IS NOT null
+            RETURN luogo'));
+        return $results;
+    }
+    
+    //ritorno: id, nome
+    public function getAutori(){
+        
+        $results = ($this->client->run('MATCH (a:Autore)
+            WITH a.nome as nome, a.id as id
+            RETURN id, nome'));
+        return $results;
+    }
+    
+    //ritorno: eta
+    public function getEta(){
+        
+        $results = ($this->client->run('MATCH (v:Visitatore)
+            WITH distinct v.eta as eta
+            WHERE eta IS NOT null
+            RETURN eta
+            ORDER BY eta'));
+        return $results;
     }
     
 }

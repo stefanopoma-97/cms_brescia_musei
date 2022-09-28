@@ -3,6 +3,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/javascript.js to edit this template
  */
 
+function ajax_parametri_filtri(){
+    window.confirm("AJAX lanciato");
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+
+                type: 'POST',
+
+                url: '/ajaxParametri',
+
+                //data: {categorie:categorie},
+
+                dataType: "json",
+
+                success: function (data) {
+
+                    window.confirm("HO RICEVUTO: citta:"+data.categorie);
+                    data.categorie.forEach(function(c) {
+                        $('#valore_raggruppamento_categoria').append(new Option(c.nome, c.id));
+                      });
+                    
+
+                    
+                },
+                
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    window.confirm("fail: "+data.error);
+                    window.confirm("fail: "+data.debug);
+                } 
+
+               
+
+            });
+}
+
+function hide_valori(){
+    $('.select_valori').hide();
+    $('#div_valore_raggruppamento_multi_select').hide();
+}
+
 
 function filtra_raggruppamenti(select){
     //in base al tipo di ragruppamento modifica la seconda parte della form
@@ -15,15 +59,106 @@ function filtra_raggruppamenti(select){
        $('#div_valore_raggruppamento_multi_select').hide();
        console.log("mantengo nascosti criteri");
        
-       $('#informazioni_selezione').html("Hai selezionato qualsiasi....");
+       $('#informazioni_selezione').html("Hai selezionato qualsiasi. Verranno mostrate tutte le opere");
     }
     else if (raggruppamento=="Numero di visiste"){
-        $('#valore_raggruppamento').append(new Option("Maggiori di 500", 500));
-        $('#valore_raggruppamento').append(new Option("Maggiori di 1000", 1000));
+        $('#valore_raggruppamento_test').append(new Option("Maggiori di 500", 500));
+        $('#valore_raggruppamento_test').append(new Option("Maggiori di 1000", 1000));
+        hide_valori();
         $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_test').show();
         console.log("mostro criteri");
-        
-        $('#informazioni_selezione').html("hai selezionato numero di visite");
+       
+        $('#informazioni_selezione').html("hai selezionato TEST ");
+    }
+    else if (raggruppamento=="Tipologia"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_tipologia').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("hai selezionato Tipologia. Verranno mostrate solo le opere assocciate alla tipologia selezionata.");
+    }
+    else if (raggruppamento=="Data di creazione"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_data').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("hai selezionato data di creazione. Verranno mostrate le opere create nel anno selezionato");
+    }
+    else if (raggruppamento=="Secolo"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_secolo').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("hai selezionato secolo. Verranno mostrate le opere crrate nel secolo selezionato.");
+    }
+    else if (raggruppamento=="Luogo di provenienza"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_luogo').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("hai selezionato luogo di provenienza. Verranno mostrate le opere create nel luogo selezionato");
+    }
+    else if (raggruppamento=="Autore"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_autore').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("hai selezionato autore. Verranno mostrate le opere dell'autore selezionato");
+    }
+    else if (raggruppamento=="Visite totali"){
+        hide_valori();
+       
+        $('#informazioni_selezione').html("Le opere sono ordinate per numero di visite");
+    }
+    else if (raggruppamento=="Tempo totale delle visite"){
+        hide_valori();
+       
+        $('#informazioni_selezione').html("Le opere sono ordinate per tempo di visita");
+    }
+    else if (raggruppamento=="Visite nell'ultimo anno"){
+        hide_valori();
+       
+        $('#informazioni_selezione').html("Le opere sono ordiante per numero di visite avvenute l'ultimo anno");
+    }
+    else if (raggruppamento=="Tempo totale delle visite dell'ultimo anno"){
+        hide_valori();
+       
+        $('#informazioni_selezione').html("Le opere sono ordinate per tempo di visita. Sono considerate solo le visite avvenute durante l'ultimo anno");
+    }
+    else if (raggruppamento=="Meno visitate"){
+        hide_valori();
+       
+        $('#informazioni_selezione').html("Vengono mostrate le opere meno visitate");
+    }
+    else if (raggruppamento=="Età visitatori"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_eta').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("Hai selezionato età visitatore. Vengono mostrate le opere le cui visite sono per la maggior parte effettuate da visitatori dell'età selezionata");
+    }
+    else if (raggruppamento=="Categoria visitatori"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_categoria').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("hai selezionato Categoria. Vengono mostrate le opere visitate per la maggior parte da autori della categoria selezionata");
+    }
+    else if (raggruppamento=="Sesso visitatori"){
+        hide_valori();
+        $('#div_valore_raggruppamento_multi_select').show();
+        $('#valore_raggruppamento_sesso').show();
+        console.log("mostro criteri");
+       
+        $('#informazioni_selezione').html("hai selezionato sesso visitatori. Vengono mostrate le opere visitate per la maggior parte dal sesso selezioanto");
     }
     else{
         console.log("nulla");

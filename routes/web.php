@@ -35,3 +35,4 @@ Route::post('filtro_percorsi', ['as' => 'filtro_percorsi', 'uses' => 'FrontContr
 
 Route::resource('opera', 'OperaController', ['only' => ['show','index', 'edit', 'store', 'create', 'update']]);
 
+Route::post('/ajaxParametri', 'FrontController@ajaxDatiFiltro'); 
