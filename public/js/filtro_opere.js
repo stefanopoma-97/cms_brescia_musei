@@ -315,7 +315,7 @@ function click_modal(bottone, opere, opere_selezionate){
     });
 }
 
-function move_tab1_to_tab2(bottone, array_opere, array_opere_selezionate){
+function move_tab1_to_tab2(bottone, array_opere, array_opere_selezionate, raggruppamento){
     console.log("array opere: "+array_opere);
     console.log("array opere selezionate: "+array_opere_selezionate);
     console.log("bottone cliccato: "+$(bottone).html());
@@ -336,46 +336,8 @@ function move_tab1_to_tab2(bottone, array_opere, array_opere_selezionate){
         array_opere_selezionate.push(array_opere[j]);
         array_opere.splice(j, 1); 
         
-        //fa comparire pulsante X
-        $('#tabella_elenco_opere_aggiunte_body td.item_bottone_delete').each(function() {
-              $(this).show();
-          });
-        $('#tabella_elenco_opere_aggiunte_body td.item_tipologia').each(function() {
-              $(this).hide();
-          });
-        $('#tabella_elenco_opere_aggiunte_body td.item_autore').each(function() {
-              $(this).hide();
-          });
-        $('#tabella_elenco_opere_aggiunte_body td.item_anno').each(function() {
-              $(this).hide();
-          });
-        $('#tabella_elenco_opere_aggiunte_body td.item_secolo').each(function() {
-              $(this).hide();
-          });
-          $('#tabella_elenco_opere_aggiunte_body td.item_luogo').each(function() {
-              $(this).hide();
-          });
-          $('#tabella_elenco_opere_aggiunte_body td.item_visite').each(function() {
-              $(this).hide();
-          });
-          $('#tabella_elenco_opere_aggiunte_body td.item_tempo').each(function() {
-              $(this).hide();
-          });
-          $('#tabella_elenco_opere_aggiunte_body td.item_per_categoria').each(function() {
-              $(this).hide();
-          });
-          $('#tabella_elenco_opere_aggiunte_body td.item_per_eta').each(function() {
-              $(this).hide();
-          });
-          $('#tabella_elenco_opere_aggiunte_body td.item_per_sesso').each(function() {
-              $(this).hide();
-          });
-        $('#tabella_elenco_opere_aggiunte_body td.item_bottone').each(function() {
-              $(this).hide();
-          });
-          
-          
-          
+        //sistema colonne tabella 2
+        cancella_colonne_tab2(raggruppamento);
     }
     
     
@@ -386,7 +348,220 @@ function move_tab1_to_tab2(bottone, array_opere, array_opere_selezionate){
     
 }
 
-function move_tab2_to_tab1(bottone, array_opere, array_opere_selezionate){
+function cancella_colonne_tab2(raggruppamento){
+    //fa comparire pulsante X
+    array_nascondi = ["item_tipologia","item_autore","item_anno","item_secolo","item_luogo","item_visite",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_bottone","item_valore"];
+    array_mostra = ["item_bottone_delete"];
+    body="#tabella_elenco_opere_aggiunte_body td.";
+    header="#tabella_elenco_opere_aggiunte_head th."
+    nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    /*$('#tabella_elenco_opere_aggiunte_body td.item_bottone_delete').each(function() {
+          $(this).show();
+      });
+    $('#tabella_elenco_opere_aggiunte_body td.item_tipologia').each(function() {
+          $(this).hide();
+      });
+    $('#tabella_elenco_opere_aggiunte_body td.item_autore').each(function() {
+          $(this).hide();
+      });
+    $('#tabella_elenco_opere_aggiunte_body td.item_anno').each(function() {
+          $(this).hide();
+      });
+    $('#tabella_elenco_opere_aggiunte_body td.item_secolo').each(function() {
+          $(this).hide();
+      });
+      $('#tabella_elenco_opere_aggiunte_body td.item_luogo').each(function() {
+          $(this).hide();
+      });
+      $('#tabella_elenco_opere_aggiunte_body td.item_visite').each(function() {
+          $(this).hide();
+      });
+      $('#tabella_elenco_opere_aggiunte_body td.item_tempo').each(function() {
+          $(this).hide();
+      });
+      $('#tabella_elenco_opere_aggiunte_body td.item_per_categoria').each(function() {
+          $(this).hide();
+      });
+      $('#tabella_elenco_opere_aggiunte_body td.item_per_eta').each(function() {
+          $(this).hide();
+      });
+      $('#tabella_elenco_opere_aggiunte_body td.item_per_sesso').each(function() {
+          $(this).hide();
+      });
+    $('#tabella_elenco_opere_aggiunte_body td.item_bottone').each(function() {
+          $(this).hide();
+      });
+    $('#tabella_elenco_opere_aggiunte_body td.item_valore').each(function() {
+        $(this).hide();
+    });*/
+}
+
+
+function nascondi_mostra_colonne(header, body, array_nascondi, array_mostra){
+    
+    array_nascondi.forEach(function(item, index){ 
+        $(body+item).each(function() {
+             $(this).hide();
+         });
+        $(header+item).each(function() {
+            $(this).hide();
+        });
+     });
+     
+     array_mostra.forEach(function(item, index){ 
+        $(body+item).each(function() {
+             $(this).show();
+         });
+        $(header+item).each(function() {
+            $(this).show();
+        });
+     });
+    
+}
+
+function cancella_colonne_tab1(raggruppamento){
+    
+    
+    if (raggruppamento=="Qualsiasi"){
+        
+        array_nascondi = ["item_bottone_delete","item_anno","item_secolo","item_luogo","item_visite",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore"];
+        array_mostra = ["item_tipologia","item_autore","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+     
+    }
+    
+    if (raggruppamento=="Tipologia"){
+        
+        array_nascondi = ["item_bottone_delete","item_anno","item_secolo","item_luogo","item_visite",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_autore"];
+        array_mostra = ["item_tipologia","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    
+    if (raggruppamento=="Data di creazione"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_secolo","item_luogo","item_visite",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_autore"];
+        array_mostra = ["item_anno","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    
+    if (raggruppamento=="Secolo"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_luogo","item_visite",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_autore"];
+        array_mostra = ["item_secolo","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    
+    if (raggruppamento=="Luogo di provenienza"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_visite",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_autore"];
+        array_mostra = ["item_luogo","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Autore"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_visite",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_autore","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Visite totali"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_visite","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Tempo totale delle visite"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_visite","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_tempo","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Visite nell'ultimo anno"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_visite","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Tempo totale delle visite dell'ultimo anno"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_visite","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_tempo","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Meno visitate"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_tempo","item_per_categoria","item_per_eta","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_visite","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Età visitatori"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_tempo","item_per_categoria","item_visite","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_per_eta","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Categoria visitatori"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_tempo","item_per_eta","item_visite","item_per_sesso","item_valore","item_luogo"];
+        array_mostra = ["item_per_categoria","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    if (raggruppamento=="Sesso visitatori"){
+        
+        array_nascondi = ["item_tipologia","item_bottone_delete","item_anno","item_secolo","item_autore",
+            "item_tempo","item_per_eta","item_visite","item_per_categoria","item_valore","item_luogo"];
+        array_mostra = ["item_per_sesso","item_bottone"];
+        body="#tabella_elenco_opere_body td.";
+        header="#tabella_elenco_opere_head th.";
+        nascondi_mostra_colonne(header, body, array_nascondi, array_mostra)
+    }
+    
+
+               
+    
+    
+}
+
+function move_tab2_to_tab1(bottone, array_opere, array_opere_selezionate, raggruppamento){
     console.log("array opere: "+array_opere);
     console.log("array opere selezionate: "+array_opere_selezionate);
     console.log("bottone cliccato: "+$(bottone).html());
@@ -407,21 +582,8 @@ function move_tab2_to_tab1(bottone, array_opere, array_opere_selezionate){
         array_opere.push(array_opere_selezionate[j]);
         array_opere_selezionate.splice(j, 1); 
         
-        //fa comparire pulsante X
-        $('#tabella_elenco_opere_body td.item_bottone_delete').each(function() {
-              $(this).hide();
-          });
-
-        $('#tabella_elenco_opere_body td.item_autore').each(function() {
-              $(this).show();
-          });
-        $('#tabella_elenco_opere_body td.item_tipologia').each(function() {
-              $(this).show();
-          });
-
-        $('#tabella_elenco_opere_body td.item_bottone').each(function() {
-              $(this).show();
-          });
+        cancella_colonne_tab1(raggruppamento);
+        
     }
     
     

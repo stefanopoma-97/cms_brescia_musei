@@ -230,20 +230,21 @@
                         <col width='10%'>
                         <col width='10%'>
 
-                        <thead>
+                        <thead id="tabella_elenco_opere_head">
                             <tr>
-                                <th hidden>Id</th>
-                                <th>Titolo</th>
-                                <th>Tipologia</th>
-                                <th>Autore</th>
-                                <th hidden>Anno</th>
-                                <th hidden>Secolo</th>
-                                <th hidden>Luogo</th>
-                                <th hidden>Visite</th>
-                                <th hidden>Tempo</th>
-                                <th hidden>% Categoria</th>
-                                <th hidden>% Età</th>
-                                <th hidden>% Sesso</th>
+                                <th class="item_id" hidden>Id</th>
+                                <th class="item_titolo">Titolo</th>
+                                <th class="item_tipologia">Tipologia</th>
+                                <th class="item_autore">Autore</th>
+                                <th hidden class="item_anno">Anno</th>
+                                <th hidden class="item_secolo">Secolo</th>
+                                <th hidden class="item_luogo">Luogo</th>
+                                <th hidden class="item_visite">Visite</th>
+                                <th hidden class="item_tempo">Tempo</th>
+                                <th hidden class="item_per_categoria">% Categoria</th>
+                                <th hidden class="item_per_eta">>% Età</th>
+                                <th hidden class="item_per_sesso">% Sesso</th>
+                                <th hidden class="item_valore">VALORE</th>
                                 <th></th>
                                 <th hidden=""></th>
                             </tr>
@@ -257,23 +258,24 @@
                                 <td class="item_tipologia">{{ $opera->get('tipologia') }}</td>
                                 <td class="item_autore">{{ $opera->get('autore') }}</td>
                                 <td hidden class="item_anno">{{ $opera->get('anno') }}</td>
-                                <td hidden class="item_secolo"></td>
-                                <td hidden class="item_luogo"></td>
-                                <td hidden class="item_visite"></td>
-                                <td hidden class="item_tempo"></td>
-                                <td hidden class="item_per_categoria"></td>
-                                <td hidden class="item_per_eta"></td>
-                                <td hidden class="item_per_sesso"></td>
+                                <td hidden class="item_secolo">{{ $opera->get('secolo') }}</td>
+                                <td hidden class="item_luogo">{{ $opera->get('luogo') }}</td>
+                                <td hidden class="item_visite">{{ $opera->get('visite') }}</td>
+                                <td hidden class="item_tempo">{{ $opera->get('tempo') }}</td>
+                                <td hidden class="item_per_categoria">{{ $opera->get('per_categoria') }}</td>
+                                <td hidden class="item_per_eta">{{ $opera->get('per_eta') }}</td>
+                                <td hidden class="item_per_sesso">{{ $opera->get('per_sesso') }}</td>
+                                <td hidden class="item_valore"></td>
                                 @if($_SERVER['REQUEST_METHOD']=="GET")
                                 <td class="item_bottone">
                                     <a class="btn btn-disabled" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
                                 </td>
                                 @else
                                 <td class="item_bottone">
-                                    <a class="btn btn-success" href="#" onclick="move_tab1_to_tab2(this, opere, opere_selezionate)"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
+                                    <a class="btn btn-success" href="#" onclick="move_tab1_to_tab2(this, opere, opere_selezionate, raggruppamento)"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
                                 </td>
                                 @endif
-                                <td class="item_bottone_delete" hidden><a class='btn btn-default' onclick='move_tab2_to_tab1(this, opere, opere_selezionate)'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                <td class="item_bottone_delete" hidden><a class='btn btn-default' onclick='move_tab2_to_tab1(this, opere, opere_selezionate, raggruppamento)'><span class='glyphicon glyphicon-remove'></span></a></td>
                                 
                             </tr>
                             @endforeach
@@ -290,26 +292,27 @@
                         <col width='10%'>
                         <col width='5%'>
 
-                        <thead>
+                        <thead id="tabella_elenco_opere_aggiunte_head">
                             <tr>
-                                <th hidden>Id</th>
+                                <th class="item_id" hidden>Id</th>
                                 @if($_SERVER['REQUEST_METHOD']=="GET")
-                                    <th hidden>Titolo</th>
+                                    <th class="item_titolo" hidden>Titolo</th>
                                     @else
-                                    <th>Titolo</th>
+                                    <th class="item_titolo">Titolo</th>
                                 @endif
-                                <th hidden>Tipologia</th>
-                                <th hidden>Autore</th>
-                                <th hidden>Anno</th>
-                                <th hidden>Secolo</th>
-                                <th hidden>Luogo</th>
-                                <th hidden>Visite</th>
-                                <th hidden>Tempo</th>
-                                <th hidden>% Categoria</th>
-                                <th hidden>% Età</th>
-                                <th hidden>% Sesso</th>
-                                <th hidden></th>
-                                <th ></th>
+                                <th hidden class="item_tipologia">Tipologia</th>
+                                <th hidden class="item_autore">Autore</th>
+                                <th hidden class="item_anno">Anno</th>
+                                <th hidden class="item_secolo">Secolo</th>
+                                <th hidden class="item_luogo">Luogo</th>
+                                <th hidden class="item_visite">Visite</th>
+                                <th hidden class="item_tempo">Tempo</th>
+                                <th hidden class="item_per_categoria">% Categoria</th>
+                                <th hidden class="item_per_eta">% Età</th>
+                                <th hidden class="item_per_sesso">% Sesso</th>
+                                <th hidden class="item_valore">VALORE</th>
+                                <th hidden class="item_bottone"></th>
+                                <th class="item_bottone_delete"></th>
                             </tr>
                         </thead>
 
@@ -318,26 +321,27 @@
                             <tr class="righe_tabella_opere_selezionate">
                                 <td class="item_id" hidden>{{ $op->get('id') }}</a></td>
                                 <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$op->get('id')])}}'">{{ $op->get('titolo') }}</td>
-                                <td hidden class="item_tipologia"></td>
-                                <td hidden class="item_autore"></td>
-                                <td hidden class="item_anno"></td>
-                                <td hidden class="item_secolo"></td>
-                                <td hidden class="item_luogo"></td>
-                                <td hidden class="item_visite"></td>
-                                <td hidden class="item_tempo"></td>
-                                <td hidden class="item_per_categoria"></td>
-                                <td hidden class="item_per_eta"></td>
-                                <td hidden class="item_per_sesso"></td>
+                                <td hidden class="item_tipologia">{{ $opera->get('tipologia') }}</td>
+                                <td hidden class="item_autore">{{ $opera->get('autore') }}</td>
+                                <td hidden class="item_anno">{{ $opera->get('anno') }}</td>
+                                <td hidden class="item_secolo">{{ $opera->get('secolo') }}</td>
+                                <td hidden class="item_luogo">{{ $opera->get('luogo') }}</td>
+                                <td hidden class="item_visite">{{ $opera->get('visite') }}</td>
+                                <td hidden class="item_tempo">{{ $opera->get('tempo') }}</td>
+                                <td hidden class="item_per_categoria">{{ $opera->get('per_categoria') }}</td>
+                                <td hidden class="item_per_eta">{{ $opera->get('per_eta') }}</td>
+                                <td hidden class="item_per_sesso">{{ $opera->get('per_sesso') }}</td>
+                                <td hidden class="item_valore"></td>
                                 @if($_SERVER['REQUEST_METHOD']=="GET")
                                 <td class="item_bottone" hidden="">
                                     <a class="btn btn-disabled" href="#"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
                                 </td>
                                 @else
                                 <td class="item_bottone" hidden="">
-                                    <a class="btn btn-success" href="#" onclick="move_tab1_to_tab2(this, opere, opere_selezionate)"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
+                                    <a class="btn btn-success" href="#" onclick="move_tab1_to_tab2(this, opere, opere_selezionate, raggruppamento)"><span class="glyphicon glyphicon-plus"></span> Aggiungi</a>
                                 </td>
                                 @endif
-                                <td class="item_bottone_delete"><a class='btn btn-default' onclick='move_tab2_to_tab1(this, opere, opere_selezionate)'><span class='glyphicon glyphicon-remove'></span></a></td>
+                                <td class="item_bottone_delete"><a class='btn btn-default' onclick='move_tab2_to_tab1(this, opere, opere_selezionate, raggruppamento)'><span class='glyphicon glyphicon-remove'></span></a></td>
                                 
                             </tr>
                             
@@ -387,6 +391,7 @@ filtra_raggruppamenti(document.getElementById("raggruppamento"));
 var opere = <?php echo json_encode($opere); ?>;
 var opere_selezionate = <?php echo json_encode($opere_selezionate)?>;
 var raggruppamento = <?php echo json_encode($raggruppamento)?>;
+cancella_colonne_tab1(raggruppamento);
 </script> 
         
 @endsection
