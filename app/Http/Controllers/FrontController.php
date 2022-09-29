@@ -255,53 +255,83 @@ class FrontController extends Controller
             $eta_selezionata = null;
             $sesso_selezionato = null;
             
-           
-            if ($raggruppamento == "Tipologia"){
-                $tipologia_selezionata = $request->input('valore_raggruppamento_tipologia');
-            }
-            else if($raggruppamento == "Data di creazione"){
-                $data_selezionata = $request->input('valore_raggruppamento_data');
-            }
-            else if($raggruppamento == "Secolo"){
-                $secolo_selezionato = $request->input('valore_raggruppamento_secolo');
-            }
-            else if($raggruppamento == "Luogo di provenienza"){
-                $luogo_selezionato = $request->input('valore_raggruppamento_luogo');
-            }
-            else if($raggruppamento == "Autore"){
-                $autore_selezionato = $request->input('valore_raggruppamento_autore');
-            }
-            else if($raggruppamento == "Età visitatori"){
-               $eta_selezionata = $request->input('valore_raggruppamento_eta'); 
-            }
-            else if($raggruppamento == "Categoria visitatori"){
-                $categoria_selezionata = $request->input('valore_raggruppamento_categoria');
-            }
-            else if($raggruppamento == "Sesso visitatori"){
-                $sesso_selezionato = $request->input('valore_raggruppamento_sesso');
-            }
-            
- 
-            
-            
             //estraggo array di opere selezionate
             $opere_selezionate = $request->input('opere_selezionate');
             $opere_selezionate_array = json_decode(stripslashes($opere_selezionate),true);
+            $opere_selezionate_array_id = $dl->getIdSelezionate($opere_selezionate_array);
+            
+            $opere = null;
+           
+            if ($raggruppamento == "Tipologia"){
+                $tipologia_selezionata = $request->input('valore_raggruppamento_tipologia');
+                $opere = $dl->getOpereTipolgia($opere_selezionate_array_id, $tipologia_selezionata);
+            }
+            else if($raggruppamento == "Qualsiasi"){
+                $opere = $dl->getOpereMenoSelezionate($opere_selezionate_array_id);
+            }
+            else if($raggruppamento == "Data di creazione"){
+                $data_selezionata = $request->input('valore_raggruppamento_data');
+                $opere = $dl->getOpereData($opere_selezionate_array_id, $data_selezionata);
+            }
+            else if($raggruppamento == "Secolo"){
+                $secolo_selezionato = $request->input('valore_raggruppamento_secolo');
+                $opere = $dl->getOpereSecolo($opere_selezionate_array_id, $secolo_selezionato);
+            }
+            else if($raggruppamento == "Luogo di provenienza"){
+                $luogo_selezionato = $request->input('valore_raggruppamento_luogo');
+                $opere = $dl->getOpereProvenienza($opere_selezionate_array_id, $luogo_selezionato);
+            }
+            else if($raggruppamento == "Autore"){
+                $autore_selezionato = $request->input('valore_raggruppamento_autore');
+                $nome_autore = $dl->getAutoreById($autore_selezionato);
+                $opere = $dl->getOpereAutore($opere_selezionate_array_id, $nome_autore);
+            }
+            else if($raggruppamento == "Visite totali"){
+                $opere = $dl->getOperePerVisite($opere_selezionate_array_id);
+            }
+            else if($raggruppamento == "Meno visitate"){
+                $opere = $dl->getOperePerMenoVisite($opere_selezionate_array_id);
+            }
+            else if($raggruppamento == "Tempo totale delle visite"){
+                $opere = $dl->getOperePerTempoVisite($opere_selezionate_array_id);
+            }
+            else if($raggruppamento == "Visite nell'ultimo anno"){
+                $opere = $dl->getOperePerVisiteUltimoAnno($opere_selezionate_array_id);
+            }
+            else if($raggruppamento == "Tempo totale delle visite dell'ultimo anno"){
+                $opere = $dl->getOperePerTempoVisiteUltimoAnno($opere_selezionate_array_id);
+            }
+            else if($raggruppamento == "Età visitatori"){
+               $eta_selezionata = $request->input('valore_raggruppamento_eta'); 
+               $opere = $dl->getOpereEta($opere_selezionate_array_id, $eta_selezionata);
+            }
+            else if($raggruppamento == "Categoria visitatori"){
+                $categoria_selezionata = $request->input('valore_raggruppamento_categoria');
+                $opere = $dl->getOpereCategoria($opere_selezionate_array_id, $categoria_selezionata);
+            }
+            else if($raggruppamento == "Sesso visitatori"){
+                $sesso_selezionato = $request->input('valore_raggruppamento_sesso');
+                $opere = $dl->getOpereSesso($opere_selezionate_array_id, $sesso_selezionato);
+            }
+            
+           
+ 
+            
+            
+            
             //dump($raggruppamento);
             //dump($valore_categoria);
             //dump($opere_selezionate_array);
             //dump(gettype($opere_selezionate_array));
-            
-            
             //dump(gettype($opere_selezionate_array[0]->id));
             
             
             //da array di opere selezionate estraggo array di ID
-            $opere_selezionate_array_id = $dl->getIdSelezionate($opere_selezionate_array);
+            
             //dump("array id opere selezionate: "+$opere_selezionate_array_id);
             
             //prendo opere, scartando quelle dell'array di ID
-            $opere = $dl->getOpereMenoSelezionate($opere_selezionate_array_id);
+            
             dump("Opere");
             dump($opere);
             

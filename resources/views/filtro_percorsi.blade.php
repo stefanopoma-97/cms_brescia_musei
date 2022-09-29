@@ -241,9 +241,9 @@
                                 <th hidden class="item_luogo">Luogo</th>
                                 <th hidden class="item_visite">Visite</th>
                                 <th hidden class="item_tempo">Tempo</th>
-                                <th hidden class="item_per_categoria">% Categoria</th>
-                                <th hidden class="item_per_eta">>% Età</th>
-                                <th hidden class="item_per_sesso">% Sesso</th>
+                                <th hidden class="item_per_categoria">Percentuale categoria</th>
+                                <th hidden class="item_per_eta">Percentuale Età</th>
+                                <th hidden class="item_per_sesso">Percentuale Sesso</th>
                                 <th hidden class="item_valore">VALORE</th>
                                 <th></th>
                                 <th hidden=""></th>
@@ -307,9 +307,9 @@
                                 <th hidden class="item_luogo">Luogo</th>
                                 <th hidden class="item_visite">Visite</th>
                                 <th hidden class="item_tempo">Tempo</th>
-                                <th hidden class="item_per_categoria">% Categoria</th>
-                                <th hidden class="item_per_eta">% Età</th>
-                                <th hidden class="item_per_sesso">% Sesso</th>
+                                <th hidden class="item_per_categoria">Percentuale Categoria</th>
+                                <th hidden class="item_per_eta">Percentuale Età</th>
+                                <th hidden class="item_per_sesso">Percentuale Sesso</th>
                                 <th hidden class="item_valore">VALORE</th>
                                 <th hidden class="item_bottone"></th>
                                 <th class="item_bottone_delete"></th>
@@ -321,16 +321,16 @@
                             <tr class="righe_tabella_opere_selezionate">
                                 <td class="item_id" hidden>{{ $op->get('id') }}</a></td>
                                 <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$op->get('id')])}}'">{{ $op->get('titolo') }}</td>
-                                <td hidden class="item_tipologia">{{ $opera->get('tipologia') }}</td>
-                                <td hidden class="item_autore">{{ $opera->get('autore') }}</td>
-                                <td hidden class="item_anno">{{ $opera->get('anno') }}</td>
-                                <td hidden class="item_secolo">{{ $opera->get('secolo') }}</td>
-                                <td hidden class="item_luogo">{{ $opera->get('luogo') }}</td>
-                                <td hidden class="item_visite">{{ $opera->get('visite') }}</td>
-                                <td hidden class="item_tempo">{{ $opera->get('tempo') }}</td>
-                                <td hidden class="item_per_categoria">{{ $opera->get('per_categoria') }}</td>
-                                <td hidden class="item_per_eta">{{ $opera->get('per_eta') }}</td>
-                                <td hidden class="item_per_sesso">{{ $opera->get('per_sesso') }}</td>
+                                <td hidden class="item_tipologia">{{ $op->get('tipologia') }}</td>
+                                <td hidden class="item_autore">{{ $op->get('autore') }}</td>
+                                <td hidden class="item_anno">{{ $op->get('anno') }}</td>
+                                <td hidden class="item_secolo">{{ $op->get('secolo') }}</td>
+                                <td hidden class="item_luogo">{{ $op->get('luogo') }}</td>
+                                <td hidden class="item_visite">{{ $op->get('visite') }}</td>
+                                <td hidden class="item_tempo">{{ $op->get('tempo') }}</td>
+                                <td hidden class="item_per_categoria">{{ $op->get('per_categoria') }}</td>
+                                <td hidden class="item_per_eta">{{ $op->get('per_eta') }}</td>
+                                <td hidden class="item_per_sesso">{{ $op->get('per_sesso') }}</td>
                                 <td hidden class="item_valore"></td>
                                 @if($_SERVER['REQUEST_METHOD']=="GET")
                                 <td class="item_bottone" hidden="">
