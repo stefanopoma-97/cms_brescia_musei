@@ -424,7 +424,7 @@ class DataLayer extends Model
     }
     
     
-    public function getOperaByID($id) {
+    public function getOperaByIDOld($id) {
         $int_id = (int)$id; 
         $results = ($this->client->run('
         MATCH (o:Opera)
@@ -438,6 +438,48 @@ class DataLayer extends Model
         ', ['int_id' => $int_id]));
         
         return $results[0];
+    }
+    
+    public function getOperaByID($id) {
+        $int_id = (int)$id; 
+        
+        $results = ($this->client->run('
+        MATCH (o:Opera)
+        WITH o.id as id, o.titolo as titolo, o.autore as autore, o.tipologia as tipologia, o.anno as anno, o.secolo as secolo, o.provenienza as luogo, null as visite, null as tempo, null as per_categoria, null as per_eta, null as per_sesso 
+        WHERE id = $int_id
+        RETURN id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
+        ', ['int_id' => $int_id]));
+        $opera = $results[0];
+        
+        $results = ($this->client->run('
+        MATCH (o:Opera)-[:CREATA]->(a:Autore)
+        WITH a.nome as autore, o.id as id
+        WHERE id = $int_id
+        RETURN autore
+        ', ['int_id' => $int_id]));
+        
+        $autore="";
+        if (count($results)>0){
+           $autore = $results[0]->get('autore');
+        }
+        
+        
+        $results = ($this->client->run('
+        MATCH (v:Visita)-[:VISITA_OPERA]->(o:Opera) 
+        WITH count(v) as visite, sum(v.durata) as tempo, o.id as id        
+        WHERE id = $int_id
+        RETURN visite, tempo
+        ', ['int_id' => $int_id]));
+        
+        $visite = 0;
+        $tempo = 0;
+        if (count($results)>0){
+           $visite = $results[0]->get('visite');
+           $tempo = $results[0]->get('tempo');
+        }
+        
+        
+        return [$opera, $autore, $visite, $tempo];
     }
     
     public function getIdSelezionate($array){

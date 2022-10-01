@@ -26,12 +26,12 @@
                         <h3><strong  >{{ $opera->get('titolo')}}</strong></h3>
                     </li>
                 <li class="list-group-item"><strong>Tipologia: {{ $opera->get('tipologia')}}</strong></li>
-                <li class="list-group-item " ><strong>Autore: {{ $opera->get('autore')}}</strong></li>
+                <li class="list-group-item " ><strong>Autore: {{ $autore}}</strong></li>
                 <li class="list-group-item ">Anno:   {{ $opera->get('anno')}}</li>
                 <li class="list-group-item ">Seolo:   {{ $opera->get('secolo')}}</li>
                 <li class="list-group-item ">Luogo:   {{ $opera->get('luogo')}}</li>
-                <li class="list-group-item ">Numero visite:   {{ $opera->get('visite')}}</li>
-                <li class="list-group-item ">Tempo visite:   {{ $opera->get('tempo')}} secondi</li>
+                <li class="list-group-item ">Numero visite:   {{ $visite}}</li>
+                <li class="list-group-item ">Tempo visite:   {{ $tempo}} secondi</li>
                
             </ul>
         

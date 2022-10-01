@@ -17,8 +17,15 @@ class OperaController extends Controller
         if(isset($_SESSION['logged'])) {
             
         } else {
-            $opera = $dl->getOperaByID($id);
-            return view('opere.opera')->with('opera',$opera);
+            $array = $dl->getOperaByID($id);
+            $opera = $array[0];
+            $autore = $array[1];
+            $visite = $array[2];
+            $tempo = $array[3];
+            return view('opere.opera')->with('opera',$opera)
+                    ->with('autore',$autore)
+                    ->with('visite',$visite)
+                    ->with('tempo',$tempo);
         }
         
         
