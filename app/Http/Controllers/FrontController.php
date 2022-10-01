@@ -382,4 +382,31 @@ class FrontController extends Controller
             
         }
     }
+    
+    //arrivo pagina creazione percorsi prima volta (GET)
+    public function confermaPercorso(Request $request) {
+        
+        
+        session_start(); //fa partire la sessione e rimanda alla view index
+        $dl = new DataLayer();
+        
+        
+        if(isset($_SESSION['logged'])) {
+            
+        } else {
+            
+            $opere_id = $request->input('opere');
+            //dump("Opere id recuperate");
+            //dump($opere_id);
+           
+            $opere = $dl->getOpereByMultipleId($opere_id);
+            dump($opere);
+                         
+            return view('conferma_percorso')->with('logged',false)->with('opere',$opere)
+                    ->with('valore',"pollo")
+                    ;
+            
+            
+        }
+    }
 }

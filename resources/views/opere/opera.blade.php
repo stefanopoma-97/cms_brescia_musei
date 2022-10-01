@@ -18,9 +18,27 @@
 
 @section('corpo')
 
+<div class="row">
+    <div class="col-m-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+            <ul class="list-group">
+                <li class="list-group-item text-center">
 
-<h1>{{ $opera->id }}</h1>
-<h1>{{ $opera->nome}}</h1>
+                        <h3><strong  >{{ $opera->get('titolo')}}</strong></h3>
+                    </li>
+                <li class="list-group-item"><strong>Tipologia: {{ $opera->get('tipologia')}}</strong></li>
+                <li class="list-group-item " ><strong>Autore: {{ $opera->get('autore')}}</strong></li>
+                <li class="list-group-item ">Anno:   {{ $opera->get('anno')}}</li>
+                <li class="list-group-item ">Seolo:   {{ $opera->get('secolo')}}</li>
+                <li class="list-group-item ">Luogo:   {{ $opera->get('luogo')}}</li>
+                <li class="list-group-item ">Numero visite:   {{ $opera->get('visite')}}</li>
+                <li class="list-group-item ">Tempo visite:   {{ $opera->get('tempo')}} secondi</li>
+               
+            </ul>
+        
+        
+        </div>
+</div>
+
         
           
         

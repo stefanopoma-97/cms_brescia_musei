@@ -254,7 +254,7 @@
                             @foreach($opere as $opera)
                             <tr class="righe_tabella_opere">
                                 <td class="item_id" hidden>{{ $opera->get('id') }}</a></td>
-                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=> $opera->get('id')])}}'">{{  $opera->get('titolo') }}</td>
+                                <td class="item_titolo"><a href="{{route('opera.show',['opera'=> $opera->get('id')])}}'" target="_blank">{{  $opera->get('titolo') }}</a></td>
                                 <td class="item_tipologia">{{ $opera->get('tipologia') }}</td>
                                 <td class="item_autore">{{ $opera->get('autore') }}</td>
                                 <td hidden class="item_anno">{{ $opera->get('anno') }}</td>
@@ -288,6 +288,10 @@
 
                 <div class="col-md-3 col-md-pull-1">
                     <h3> Aggiunte:</h3>
+                    <!--<a id ="btn_crea" class="btn btn-success " href="{{route('conferma_percorso',['opera'=> $opere_selezionate])}}">Crea</a>-->
+                    <a id ="btn_crea" class="btn btn-success " onclick="crea_percorso(opere_selezionate)">Crea</a>
+                    <a id ="btn_crea_disable" class="btn btn-disabled " href="#">Crea</a>
+
                     <table id="tabella_elenco_opere_aggiunte" class="table table-striped table-hover table-responsive  table-sm" style="width:100%" data-toggle="table" data-search="true" data-show-columns="true" >
                         <col width='10%'>
                         <col width='5%'>
@@ -320,7 +324,7 @@
                             @foreach($opere_selezionate as $op)
                             <tr class="righe_tabella_opere_selezionate">
                                 <td class="item_id" hidden>{{ $op->get('id') }}</a></td>
-                                <td class="item_titolo" onclick="location.href='{{route('opera.show',['opera'=>$op->get('id')])}}'">{{ $op->get('titolo') }}</td>
+                                <td class="item_titolo"><a href="{{route('opera.show',['opera'=> $opera->get('id')])}}'" target="_blank">{{  $opera->get('titolo') }}</a></td>
                                 <td hidden class="item_tipologia">{{ $op->get('tipologia') }}</td>
                                 <td hidden class="item_autore">{{ $op->get('autore') }}</td>
                                 <td hidden class="item_anno">{{ $op->get('anno') }}</td>
@@ -392,6 +396,7 @@ var opere = <?php echo json_encode($opere); ?>;
 var opere_selezionate = <?php echo json_encode($opere_selezionate)?>;
 var raggruppamento = <?php echo json_encode($raggruppamento)?>;
 cancella_colonne_tab1(raggruppamento);
+nascondi_mostra_bottone(opere_selezionate);
 </script> 
         
 @endsection

@@ -55,6 +55,28 @@ class DataLayer extends Model
         return $results;
     }
     
+    public function getOpereByMultipleId($array) {
+        
+        $int_array = [];
+        foreach ($array as $opera) {
+           array_push($int_array, (int)($opera['id'])); 
+         }
+        
+        
+        $results = ($this->client->run('MATCH (o:Opera)
+            WITH o.id as id, o.titolo as titolo, o.autore as autore, o.tipologia as tipologia, o.anno as anno, o.secolo as secolo, o.provenienza as luogo, null as visite, null as tempo, null as per_categoria, null as per_eta, null as per_sesso 
+            WHERE id IN $int_array
+            RETURN id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
+            ORDER BY id ASC',['int_array' => $int_array]));
+        
+        $opere = array();
+        foreach ($results as $value) {
+           array_push($opere, $value);
+        }
+         
+        return $opere;
+    }
+    
     public function getOpereMenoSelezionate($array_id) {
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -384,8 +406,19 @@ class DataLayer extends Model
     
     
     public function getOperaByID($id) {
-        $opera1 = new Opera($id, "nome1", "autore1", "anno1", "100");
-        return $opera1;
+        $int_id = (int)$id; 
+        $results = ($this->client->run('
+        MATCH (o:Opera)
+        WITH o.id as id, o.titolo as titolo, o.autore as autore, o.tipologia as tipologia, o.anno as anno, o.secolo as secolo, o.provenienza as luogo, null as visite, null as tempo, null as per_categoria, null as per_eta, null as per_sesso 
+        MATCH (o:Opera)-[:CREATA]->(a:Autore)
+        WITH a.nome as autore, id as id, titolo as titolo, tipologia as tipologia, anno as anno, secolo as secolo, luogo as luogo, visite as visite, tempo as tempo, per_categoria as per_categoria, per_eta as per_eta, per_sesso as per_sesso, o.id as id2
+        MATCH (v:Visita)-[:VISITA_OPERA]->(o:Opera) 
+        WITH count(v) as visite, sum(v.durata) as tempo, autore as autore, id as id, titolo as titolo, tipologia as tipologia, anno as anno, secolo as secolo, luogo as luogo, per_categoria as per_categoria, per_eta as per_eta, per_sesso as per_sesso, id2 as id2, o as o
+        WHERE id2 = $int_id AND id = $int_id AND o.id = $int_id
+        RETURN id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
+        ', ['int_id' => $int_id]));
+        
+        return $results[0];
     }
     
     public function getIdSelezionate($array){

@@ -10,16 +10,19 @@ class OperaController extends Controller
 {
     public function show($id) {
         
+        session_start(); //fa partire la sessione e rimanda alla view index
         $dl = new DataLayer();
-        /*$user_id = $dl->getUserID($_SESSION['loggedName']);
-        if($user_id==-1){
-            session_destroy();
-            return Redirect::to(route('user.auth.login'));
-        }*/
-        $opera = $dl->getOperaByID($id);
+
+        //controlla che sia loggato
+        if(isset($_SESSION['logged'])) {
             
+        } else {
+            $opera = $dl->getOperaByID($id);
+            return view('opere.opera')->with('opera',$opera);
+        }
         
-        return view('opere.opera')->with('opera',$opera);
+        
+        
         
         
         

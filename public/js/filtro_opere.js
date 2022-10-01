@@ -338,6 +338,7 @@ function move_tab1_to_tab2(bottone, array_opere, array_opere_selezionate, raggru
         
         //sistema colonne tabella 2
         cancella_colonne_tab2(raggruppamento);
+        nascondi_mostra_bottone(array_opere_selezionate)
     }
     
     
@@ -395,6 +396,37 @@ function cancella_colonne_tab2(raggruppamento){
     $('#tabella_elenco_opere_aggiunte_body td.item_valore').each(function() {
         $(this).hide();
     });*/
+}
+
+function nascondi_mostra_bottone(array_opere_selezionate){
+    console.log("nascondi_mostra_bottone ");
+    if ((array_opere_selezionate.length)>0){
+        console.log("opere selezionate > 1, mostro bottone");
+        $('#btn_crea').show();
+        $('#btn_crea_disable').hide();
+    }
+    else{
+        console.log("opere selezionate < 1, nascondo bottone");
+        $('#btn_crea').hide();
+        $('#btn_crea_disable').show();
+    }
+}
+
+function crea_percorso(opere_selezionate){
+    //var url = '{{ url("/conferma_percorso", "opere") }}';
+    //url = url.replace('%3Aopere', opere_selezionate);
+    //window.location = url;
+    //var url = "{{route('conferma_percorso', '')}}"+"/"+opere_selezionate;
+    //window.open();
+    
+    var url = route('conferma_percorso', { opere: opere_selezionate });
+    console.log(url);
+    window.location = url;
+    window.open();
+    
+    //http://127.0.0.1:8000/%7B%7B%20url(%22/conferma_percorso%22,%20%22opere%22)%20%7D%7D
+    
+    //http://127.0.0.1:8000/conferma_percorso?opera%5B0%5D=1&opera%5B1%5D=2&opera%5B2%5D=3%27
 }
 
 
@@ -583,6 +615,7 @@ function move_tab2_to_tab1(bottone, array_opere, array_opere_selezionate, raggru
         array_opere_selezionate.splice(j, 1); 
         
         cancella_colonne_tab1(raggruppamento);
+        nascondi_mostra_bottone(array_opere_selezionate)
         
     }
     

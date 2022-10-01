@@ -11,7 +11,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "laudis/neo4j-php-client": "^2.7"
+        "laudis/neo4j-php-client": "^2.7",
+        "tightenco/ziggy": "^1.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

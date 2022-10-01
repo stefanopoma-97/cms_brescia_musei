@@ -31,6 +31,8 @@ Route::get('filtro_percorsi', ['as' => 'filtro_percorsi', 'uses' => 'FrontContro
 
 Route::post('filtro_percorsi', ['as' => 'filtro_percorsi', 'uses' => 'FrontController@percorsiFiltro']);
 
+Route::get('conferma_percorso', ['as' => 'conferma_percorso', 'uses' => 'FrontController@confermaPercorso']);
+
 //OPERA
 
 Route::resource('opera', 'OperaController', ['only' => ['show','index', 'edit', 'store', 'create', 'update']]);
