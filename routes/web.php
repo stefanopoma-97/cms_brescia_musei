@@ -33,6 +33,9 @@ Route::post('filtro_percorsi', ['as' => 'filtro_percorsi', 'uses' => 'FrontContr
 
 Route::get('conferma_percorso', ['as' => 'conferma_percorso', 'uses' => 'FrontController@confermaPercorso']);
 
+Route::post('crea_percorso', ['as' => 'crea_percorso', 'uses' => 'FrontController@creaPercorso']);
+
+
 //OPERA
 
 Route::resource('opera', 'OperaController', ['only' => ['show','index', 'edit', 'store', 'create', 'update']]);

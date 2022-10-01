@@ -173,7 +173,23 @@ function filtra_opere_db(opere_selezionate){
     hiddenInput.value = JSON.stringify(opere_selezionate);
     myForm.appendChild(hiddenInput);
     
-    console.log("array opere selezionate: "+opere_selezionate);
+    console.log("array opere selezionate filtra_opere_db: "+opere_selezionate);
+    console.log("array opere selezionate filtra_opere_db  messe nella form: "+JSON.stringify(opere_selezionate));
+}
+
+//inserisce opere selezionate nella form
+function inserisci_opere_in_conferma_percorso(opere){
+    var myForm = document.getElementById('form_conferma_percorso');
+    var hiddenInput = document.createElement('input');
+
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'opere';
+    hiddenInput.value = JSON.stringify(opere);
+    myForm.appendChild(hiddenInput);
+    
+    console.log("opere messe nella form: "+JSON.stringify(opere));
+    
+    
 }
 
 function filtra_opere(){

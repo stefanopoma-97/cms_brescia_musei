@@ -77,6 +77,25 @@ class DataLayer extends Model
         return $opere;
     }
     
+    public function creaPercorso($titolo, $descrizione, $opere){
+        $id = (string)uniqid(rand());
+        $int_array = [];
+        foreach ($opere as $opera) {
+           array_push($int_array, (int)($opera['id'])); 
+        }
+         
+        //creo percorso con dato id
+        ($this->client->run('MERGE (p:Percorso {titolo:$titolo,descrizione:$descrizione, id:$id})',['descrizione' => $descrizione, 'titolo'=>$titolo, 'id'=>$id]));
+        
+        //creo relazioni
+        ($this->client->run('MATCH (p:Percorso)
+            MATCH (o:Opera)
+            WHERE o.id in $int_array AND p.id = $id
+            MERGE (p)-[:PERCORSO_OPERA]->(o)',['int_array' => $int_array, 'id'=>$id]));
+        
+        return true;
+    }
+    
     public function getOpereMenoSelezionate($array_id) {
         
         $results = ($this->client->run('MATCH (o:Opera)

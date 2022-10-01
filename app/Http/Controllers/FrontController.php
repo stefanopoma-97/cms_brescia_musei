@@ -409,4 +409,38 @@ class FrontController extends Controller
             
         }
     }
+    
+    public function creaPercorso(Request $request) {
+        
+        
+        session_start(); //fa partire la sessione e rimanda alla view index
+        $dl = new DataLayer();
+        
+        
+        if(isset($_SESSION['logged'])) {
+            
+        } else {
+            
+            $opere = $request->input('opere');
+            $opere_array = json_decode(stripslashes($opere),true);
+            dump("Opere:");
+            dump($opere_array);
+            $titolo = $request->input('titolo');
+            dump($titolo);
+            $descrizione = $request->input('descrizione');
+            dump($descrizione);
+            
+            $int_array = [];
+            foreach ($opere_array as $opera) {
+               array_push($int_array, (int)($opera['id'])); 
+            }
+            dump($int_array);
+            
+            $dl->creaPercorso($titolo, $descrizione, $opere_array);
+                         
+            return view('index')->with('logged',false);
+            
+            
+        }
+    }
 }
