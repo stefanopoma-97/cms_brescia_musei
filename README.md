@@ -23,6 +23,8 @@ LOG_CHANNEL=stack
 
 11) nella directory del progetto lanciare il comando: composer require laudis/neo4j-php-client
 
+12) composer require tightenco/ziggy (https://github.com/tighten/ziggy#installation)
+
 13) php artisan serve
 
 
