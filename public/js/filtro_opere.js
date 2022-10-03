@@ -4,7 +4,7 @@
  */
 
 function ajax_parametri_filtri(){
-    //window.confirm("AJAX lanciato");
+    window.confirm("AJAX lanciato");
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -20,8 +20,8 @@ function ajax_parametri_filtri(){
             dataType: "text",
             //data: { name: "John" },
             success:function (data) {
-                //window.confirm("SUCCESS");
-                //window.confirm("HO RICEVUTO:"+data.output);
+                window.confirm("SUCCESS");
+                window.confirm("HO RICEVUTO:"+data.output+" - "+data);
             }, //handle success calls},
             error: function(XMLHttpRequest, textStatus, errorThrown, data) { 
                     window.confirm("ERROR");

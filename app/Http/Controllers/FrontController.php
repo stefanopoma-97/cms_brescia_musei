@@ -199,38 +199,52 @@ class FrontController extends Controller
         session_start();
         $dl = new DataLyer();
         
+        $dl->getCategorie();
+        $dl->getTipologie();
+        $dl->getDate();
+        $dl->getSecoli();
+        $dl->getLuoghi();
         if (!isset($_SESSION['categorie'])){
-                $_SESSION['categorie'] = $dl->getCategorie();
-            }
+            //dump("prendo categorie");
+            $_SESSION['categorie'] = $dl->getCategorie();
+        }
             
-            if (!isset($_SESSION['tipologie'])){
-                $_SESSION['tipologie'] = $dl->getTipologie();
-            }
+        if (!isset($_SESSION['tipologie'])){
+            //dump("prendo tipologie");
+            $_SESSION['tipologie'] = $dl->getTipologie();
+        }
             
-            if (!isset($_SESSION['date'])){
-                $_SESSION['date'] = $dl->getDate();
-            }
+        if (!isset($_SESSION['date'])){
+            //dump("prendo date");
+            $_SESSION['date'] = $dl->getDate();
+        }
             
-            if (!isset($_SESSION['secoli'])){
-                $_SESSION['secoli'] = $dl->getSecoli();
-            }
+        if (!isset($_SESSION['secoli'])){
+            //dump("prendo secoli");
+            $_SESSION['secoli'] = $dl->getSecoli();
+        }
            
-            if (!isset($_SESSION['luoghi'])){
-                $_SESSION['luoghi'] = $dl->getLuoghi();
-            }
-            
-            if (!isset($_SESSION['autori'])){
-                $_SESSION['autori'] = $dl->getAutori();
-                dump($_SESSION['autori']);
-            }
-            
-            if (!isset($_SESSION['eta'])){
-                $_SESSION['eta'] = $dl->getEta();
-            }
+        if (!isset($_SESSION['luoghi'])){
+            //dump("prendo luoghi");
+            $_SESSION['luoghi'] = $dl->getLuoghi();
+        }
         
-       
+        if (!isset($_SESSION['autori'])){
+            //dump("prendo autori");
+            $_SESSION['autori'] = $dl->getAutori();
+            //dump($_SESSION['autori']);
+        }
+
+        if (!isset($_SESSION['eta'])){
+            //dump("prendo eta");
+            $_SESSION['eta'] = $dl->getEta();
+            
+        }
+        
         $response = array('output'=>true);
         return response()->json($response); 
+
+        
         
     }
     
