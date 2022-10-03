@@ -134,6 +134,7 @@ class FrontController extends Controller
             
             if (isset($_SESSION['autori'])){
                 $autori = $_SESSION['autori'];
+                dump($autori);
             }
             else {
                 dump("prendo autori");
@@ -220,6 +221,7 @@ class FrontController extends Controller
             
             if (!isset($_SESSION['autori'])){
                 $_SESSION['autori'] = $dl->getAutori();
+                dump($_SESSION['autori']);
             }
             
             if (!isset($_SESSION['eta'])){

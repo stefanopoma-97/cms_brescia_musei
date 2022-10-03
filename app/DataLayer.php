@@ -21,6 +21,9 @@ class DataLayer extends Model
    
     private $client;
 
+    /*
+     * Nel costruttore viene creata la connessione con il database
+     */
     public function __construct()
   {
     $builder = ClientBuilder::create();
@@ -32,29 +35,29 @@ class DataLayer extends Model
   }
   
 
-
+    /*
+     * Vengono restituite tutte le opere ordinate per id
+     * la query esplicita quali proprietà ritornare per ogni nodo
+     * le proprietà sono le seguenti: id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpere() {
-        
-        
-        
+
         $results = ($this->client->run('MATCH (o:Opera)
             WITH o.id as id, o.titolo as titolo, o.autore as autore, o.tipologia as tipologia, o.anno as anno, o.secolo as secolo, o.provenienza as luogo, null as visite, null as tempo, null as per_categoria, null as per_eta, null as per_sesso 
             RETURN id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
             ORDER BY id ASC'));
-        
-        //->withDriver('https', 'https://test.com', Authenticate::basic('neo4j', 'neo4j_cms_brescia')) // creates an http driver
-        //->withDriver('neo4j', 'neo4j://neo4j.test.com?database=my-database', Authenticate::oidc('token')) // creates an auto routed driver with an OpenID Connect token
-        
-        /*
-        $opera1 = new Opera("1", "nome1", "autore1", "anno1", "100");
-        $opera2 = new Opera("2","nome2", "autore2", "anno2", "2000");
-        $opera3 = new Opera("3","nome3", "autore3", "anno3", "500");
-        
-       
-        $opere = array($opera1, $opera2, $opera3);*/
+
         return $results;
     }
     
+    /*
+     * Ritorna tutte le opere il cui ID è contenuto in un array
+     * Senza il cast a int di tutti i valori dell'array la query potrebbe non funzionare correttamente
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereByMultipleId($array) {
         
         $int_array = [];
@@ -77,6 +80,14 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Dato un titolo, una descrizione e un array di ID opere, viene creato un percorso
+     * prima viene creato un id casuale
+     * successivamente viene creato il nodo percorso
+     * infine viene creata una relazione tra il nodo e ogni id del array di opere
+     * 
+     * Output: bool
+     */
     public function creaPercorso($titolo, $descrizione, $opere){
         $id = (string)uniqid(rand());
         $int_array = [];
@@ -96,24 +107,20 @@ class DataLayer extends Model
         return true;
     }
     
+    /*
+     * Ritorna tutte le opere ordinate per ID
+     * all'insieme di tutte le opere vengono sottratte le opere il cui ID è contenuto in $array_id
+     * Questa funzione è utile per filtrare tutte le opere quando però un certo sottoinsieme è già stato selezionato
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereMenoSelezionate($array_id) {
         
         $results = ($this->client->run('MATCH (o:Opera)
             WITH o.id as id, o.titolo as titolo, o.autore as autore, o.tipologia as tipologia, o.anno as anno, o.secolo as secolo, o.provenienza as luogo, null as visite, null as tempo, null as per_categoria, null as per_eta, null as per_sesso 
             RETURN id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
             ORDER BY id ASC'));
-        /*
-        $opera1 = new Opera("1", "nome1", "autore1", "anno1", "100");
-        $opera2 = new Opera("2","nome2", "autore2", "anno2", "2000");
-        $opera3 = new Opera("3","nome3", "autore3", "anno3", "500");
-        
-        $opere = array();
-        $temp = array($opera1, $opera2, $opera3);
-        foreach ($temp as $value) {
-            if(!(in_array($value->id, $array_id)))
-                array_push($opere, $value);
-          }
-         * */
+       
         $opere = array();
         foreach ($results as $value) {
            if(!(in_array($value->get('id'), $array_id)))
@@ -123,6 +130,13 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono restituite tutte le opere facenti parte di una data tipologia (stringa)
+     * le opere sono ordinate per id
+     * Al elenco ricavato vengono sottratte le opere il cui ID fa parte del array $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereTipolgia($array_id, $tipologia) {
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -142,6 +156,12 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono restituite tutte le opere create in un certo anno (int)
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereData($array_id, $data) {
         
         $int_data =(int) $data;
@@ -163,6 +183,12 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono restituite le opere create in un certo secolo (int)
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereSecolo($array_id, $secolo) {
         $int_secolo =(int) $secolo;
         $results = ($this->client->run('MATCH (o:Opera)
@@ -182,6 +208,12 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono restituite tutte le opere create in un certo luogo (stringa)
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereProvenienza($array_id, $provenienza) {
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -201,6 +233,13 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono restituite tutte le opere con almeno una vistita
+     * le opere sono ordinate per numero di visite
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOperePerVisite($array_id) {
         
         $results = ($this->client->run('MATCH (v:Visita)-[:VISITA_OPERA]->(o:Opera) 
@@ -219,6 +258,13 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono restituite tutte le opere con almeno una visita nell'ultimo anno
+     * Le opere sono ordinate per numero di visite
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
      public function getOperePerVisiteUltimoAnno($array_id) {
         
         $results = ($this->client->run('MATCH (v:Visita)-[:VISITA_OPERA]->(o:Opera) 
@@ -238,6 +284,13 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono ritornare tutte le opere con almeno una visita
+     * Le opere vengono ordinate per numero visite (dal minore al maggiore)
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOperePerMenoVisite($array_id) {
         
         $results = ($this->client->run('MATCH (v:Visita)-[:VISITA_OPERA]->(o:Opera) 
@@ -256,6 +309,13 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono selezionate le opere con almeno una visita
+     * Le opere vengono ordinate per durata complessiva delle visite (espressa in secondi)
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOperePerTempoVisite($array_id) {
         
         $results = ($this->client->run('MATCH (v:Visita)-[:VISITA_OPERA]->(o:Opera) 
@@ -274,6 +334,13 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono selezioate con almeno una visita effettuata nell'ultimo anno
+     * le opere sono ordinate per durata delle visite (in secondi)
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOperePerTempoVisiteUltimoAnno($array_id) {
         
         $results = ($this->client->run('MATCH (v:Visita)-[:VISITA_OPERA]->(o:Opera) 
@@ -293,6 +360,13 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Dato un id viene restituito un autore
+     * Le proprietà selezionate dell'autore sono solamente il nome (stringa)
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: stringa
+     */
     public function getAutoreById($id) {
         
         $int_id = (int)$id;
@@ -305,6 +379,12 @@ class DataLayer extends Model
          return $results[0]->get('nome');
     }
     
+    /*
+     * Vengono restituite le opere di un certo autore
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereAutore($array_id, $autore) {
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -324,6 +404,14 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Data una certa età (int)
+     * per ogni opera viene calcolata la percentuale di visite associata a visitatori di quella età
+     * Le opere vengono ordinate per il valore percentuale ricavato
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereEta($array_id, $eta) {
         
         $int_eta = (int)$eta;
@@ -346,7 +434,14 @@ class DataLayer extends Model
         return $opere;
     }
     
-    
+    /*
+     * Data una certa categoria (stringa)
+     * per ogni opera viene calcolata la percentuale di visite associata a visitatori di quella categoria
+     * Le opere vengono ordinate per il valore percentuale ricavato
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereCategoria($array_id, $categoria) {
         
         $int_categoria = (int)$categoria;
@@ -369,6 +464,14 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Data una certo sesso (stringa)
+     * per ogni opera viene calcolata la percentuale di visite associata a visitatori di quel sesso
+     * Le opere vengono ordinate per il valore percentuale ricavato
+     * Vengono sottratte le opere il cui id è contenuto in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereSesso($array_id, $sesso) {
         
         $results = ($this->client->run('MATCH (o:Opera)<-[:VISITA_OPERA]-(v:Visita) -[:VISITA_VISITATORE]->(vi:Visitatore)
@@ -390,6 +493,11 @@ class DataLayer extends Model
         return $opere;
     }
     
+    /*
+     * Vengono restituite le opere il cui ID è presente in $array_id
+     * 
+     * Output: array di CypherMap
+     */
     public function getOpereSelezionate($array_id) {
         
         $results = ($this->client->run('
@@ -399,20 +507,7 @@ class DataLayer extends Model
             RETURN id, titolo, tipologia,autore, anno, secolo, luogo, visite, tempo, per_categoria, per_eta, per_sesso
             ORDER BY id ASC', ['array_id' => $array_id]));
         
-        /*
-        $opera1 = new Opera("1", "nome1", "autore1", "anno1", "100");
-        $opera2 = new Opera("2","nome2", "autore2", "anno2", "2000");
-        $opera3 = new Opera("3","nome3", "autore3", "anno3", "500");
-        
        
-        $opere = array();
-        $temp = array($opera1, $opera2, $opera3);
-        foreach ($temp as $value) {
-            if((in_array($value->id, $array_id)))
-                array_push($opere, $value);
-          }
-         * */
-        
         $opere = array();
         foreach ($results as $value) {
            if((in_array($value->get('id'), $array_id)))
@@ -440,6 +535,14 @@ class DataLayer extends Model
         return $results[0];
     }
     
+    /*
+     * Dato un id
+     * Viene restituita l'opera con quel id
+     * Viene poi restituita la stringa autore associata a quellea specifica opera (se presente)
+     * Viene poi restituito il numero di visite e il tempo di visite dell'opera (se esistono visite)
+     * 
+     * Output: array di CypherMap e stringhe. In posizione 0 opera, in posizione 1 autore, in posizione 2 visite, in posizione 3 tempo
+     */
     public function getOperaByID($id) {
         $int_id = (int)$id; 
         
@@ -482,6 +585,12 @@ class DataLayer extends Model
         return [$opera, $autore, $visite, $tempo];
     }
     
+    /*
+     * Dato un array di opere selezionate (conversione di un json in array php)
+     * viene restituito l'array degli id
+     * 
+     * Output: array 
+     */
     public function getIdSelezionate($array){
         $id = array();
         foreach ($array as $v) {
@@ -490,7 +599,11 @@ class DataLayer extends Model
         return $id;
     }
     
-    //ritorna: id, nome
+    /*
+     * Ritorna tutte le categoria nel database
+     *     
+     * Output: array di CypherMap
+     */
     public function getCategorie(){
         
         $results = ($this->client->run('MATCH (c:Categoria)
@@ -499,7 +612,11 @@ class DataLayer extends Model
         return $results;
     }
     
-    //ritorno: tipologia
+    /*
+     * Ritorna tutte le tipologie nel database
+     *     
+     * Output: array di CypherMap
+     */
     public function getTipologie(){
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -508,7 +625,11 @@ class DataLayer extends Model
         return $results;
     }
     
-    //ritorno: anno
+    /*
+     * ritorna tutte le date nel database (data di creazione di un'opera)
+     *     
+     * Output: array di CypherMap 
+     */
     public function getDate(){
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -517,7 +638,11 @@ class DataLayer extends Model
         return $results;
     }
     
-    //ritorno: secolo
+    /*
+     * Ritorna tutti i secoli presenti nel database (secoli in cui sono state create le opere)
+     *      
+     * Output: array di CypherMap
+     */
     public function getSecoli(){
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -527,7 +652,11 @@ class DataLayer extends Model
         return $results;
     }
     
-    //ritorno: luogo
+    /*
+     * Ritorna i luoghi presenti nel database (luoghi di creazione delle opere)
+     *      
+     * Output: array di CypherMap
+     */
     public function getLuoghi(){
         
         $results = ($this->client->run('MATCH (o:Opera)
@@ -537,7 +666,11 @@ class DataLayer extends Model
         return $results;
     }
     
-    //ritorno: id, nome
+    /*
+     * Ritorna tutti gli autori presenti nel database
+     *      
+     * Output: array di CypherMap
+     */
     public function getAutori(){
         
         $results = ($this->client->run('MATCH (a:Autore)<-[n:CREATA]-(:Opera)
@@ -546,7 +679,11 @@ class DataLayer extends Model
         return $results;
     }
     
-    //ritorno: eta
+    /*
+     * ritorna le età di tutti i visitatori (evitando duplicati)
+     *       
+     * Output: array di CypherMap
+     */
     public function getEta(){
         
         $results = ($this->client->run('MATCH (v:Visitatore)
