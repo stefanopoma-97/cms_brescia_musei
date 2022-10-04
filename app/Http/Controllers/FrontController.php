@@ -199,11 +199,12 @@ class FrontController extends Controller
         session_start();
         $dl = new DataLyer();
         
+        /*
         $dl->getCategorie();
         $dl->getTipologie();
         $dl->getDate();
         $dl->getSecoli();
-        $dl->getLuoghi();
+        $dl->getLuoghi();*/
         if (!isset($_SESSION['categorie'])){
             //dump("prendo categorie");
             $_SESSION['categorie'] = $dl->getCategorie();
@@ -458,5 +459,80 @@ class FrontController extends Controller
             
             
         }
+    }
+    
+    
+    public function ajax() 
+    {
+        
+        session_start();
+        $client = ClientBuilder::create()
+        ->withDriver('bolt', 'bolt://neo4j:neo4j_cms_brescia@localhost') // creates a bolt driver
+        ->withDefaultDriver('bolt')
+        ->build();
+        
+        
+        
+        //$dl = new DataLyer();
+        
+        
+        if (!isset($_SESSION['categorie'])){
+            $categorie = ($client->run('MATCH (c:Categoria)
+            WITH distinct c.nome_categoria as nome, c.id as id
+            RETURN id, nome'));
+            $_SESSION['categorie'] = $categorie;
+        }
+            
+        if (!isset($_SESSION['tipologie'])){
+            //dump("prendo tipologie");
+            $tipologie = ($client->run('MATCH (o:Opera)
+            WITH distinct o.tipologia as tipologia
+            RETURN tipologia'));
+            $_SESSION['tipologie'] = $tipologie;
+        }
+            
+        if (!isset($_SESSION['date'])){
+            $date = ($client->run('MATCH (o:Opera)
+            WITH distinct o.anno as anno
+            RETURN anno'));
+            $_SESSION['date'] = $date;
+        }
+            
+        if (!isset($_SESSION['secoli'])){
+            $secoli = ($client->run('MATCH (o:Opera)
+            WITH distinct o.secolo as secolo
+            WHERE secolo IS NOT NULL
+            RETURN secolo'));
+            $_SESSION['secoli'] = $secoli;
+        }
+           
+        if (!isset($_SESSION['luoghi'])){
+            $luoghi = ($client->run('MATCH (o:Opera)
+            WITH distinct o.provenienza as luogo
+            WHERE luogo IS NOT null
+            RETURN luogo'));
+            $_SESSION['luoghi'] = $luoghi;
+        }
+        
+        if (!isset($_SESSION['autori'])){
+            $autori = ($client->run('MATCH (a:Autore)<-[n:CREATA]-(:Opera)
+            WITH a.nome as nome, a.id as id, count(n) as numero_creazioni
+            RETURN id, nome'));
+            $_SESSION['autori'] = $autori;
+        }
+
+        if (!isset($_SESSION['eta'])){
+            $eta = ($client->run('MATCH (v:Visitatore)
+            WITH distinct v.eta as eta
+            WHERE eta IS NOT null
+            RETURN eta
+            ORDER BY eta'));
+            $_SESSION['eta'] = $eta;
+            
+        }
+        
+        
+
+        return response()->json(['success'=>'Laravel ajax example is being processed.']);
     }
 }

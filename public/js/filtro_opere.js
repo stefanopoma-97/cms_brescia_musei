@@ -37,6 +37,45 @@ function ajax_parametri_filtri(){
         
 }
 
+function ajax (){
+    window.confirm("AJAX2 lanciato");
+    $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    $.ajax({
+            url: "/ajax",
+            method: 'POST',
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(response)
+            {
+                window.confirm("SUCCESS2");
+                window.confirm("HO RICEVUTO:"+response.success+" - "+response);
+                alert(response.success);
+            },
+            error: function(response, XMLHttpRequest, textStatus, errorThrown) {
+                window.confirm("ERROR2");
+                alert("Status: " + textStatus); 
+                alert("Error: " + errorThrown);
+                alert("Error: " + XMLHttpRequest);
+                window.confirm("fail: "+errorThrown);
+                window.confirm("fail: "+response.debug);
+            },
+            statusCode: {
+            400: function() {
+              alert('400 status code! user error');
+            },
+            500: function() {
+              alert('500 status code! server error');
+            }}
+    }); 
+}
+
+
 function hide_valori(){
     $('.select_valori').hide();
     $('#div_valore_raggruppamento_multi_select').hide();

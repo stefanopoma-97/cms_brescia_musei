@@ -23,7 +23,8 @@
 
 
 <script type="text/javascript">
-ajax_parametri_filtri();
+//ajax_parametri_filtri();
+ajax();
 </script> 
         
 @endsection

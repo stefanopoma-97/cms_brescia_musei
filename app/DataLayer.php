@@ -32,6 +32,8 @@ class DataLayer extends Model
         ->withDriver('bolt', 'bolt://neo4j:neo4j_cms_brescia@localhost') // creates a bolt driver
         ->withDefaultDriver('bolt')
         ->build();
+    
+    
   }
   
 
