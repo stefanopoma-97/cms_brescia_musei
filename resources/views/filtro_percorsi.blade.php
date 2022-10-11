@@ -18,9 +18,9 @@
 @section('corpo')
 
 @if($_SERVER['REQUEST_METHOD']=="GET")
-<h1>GET method</h1>
+<!--<h1>GET method</h1>-->
 @else
-<h1>POST method</h1>
+<!--<h1>POST method</h1>-->
 @endif
         
             <form id="form_crea_percorso" name="form_crea_percorso" method="post" action="{{ route('filtro_percorsi') }}"/>

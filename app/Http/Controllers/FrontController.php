@@ -58,23 +58,23 @@ class FrontController extends Controller
             $valore = $request->input('valore_raggruppamento');
             $opere_selezionate = $request->input('opere_selezionate');
             $opere_selezionate_array = json_decode(stripslashes($opere_selezionate),true);
-            dump($raggruppamento);
-            dump($valore);
-            dump($opere_selezionate_array);
+            //dump($raggruppamento);
+            //dump($valore);
+            //dump($opere_selezionate_array);
             //dump(gettype($opere_selezionate_array));
             
             
             
             $opere_selezionate_array_id = $dl->getIdSelezionate($opere_selezionate_array);
-            dump($opere_selezionate_array_id);
+            //dump($opere_selezionate_array_id);
             
             
             
             $opere = $dl->getOpereMenoSelezionate($opere_selezionate_array_id);
-            dump($opere);
+            //dump($opere);
             
             $opere_selezionate = $dl->getOpereSelezionate($opere_selezionate_array_id);
-            dump($opere_selezionate);
+            //dump($opere_selezionate);
                   
             
             
@@ -103,7 +103,7 @@ class FrontController extends Controller
                 $categorie = $_SESSION['categorie'];
             }
             else {
-                dump("prendo categorie");
+                //dump("prendo categorie");
                 $categorie = $dl->getCategorie();
                 $_SESSION['categorie'] = $categorie;
             }
@@ -112,7 +112,7 @@ class FrontController extends Controller
                 $tipologie = $_SESSION['tipologie'];
             }
             else {
-                dump("prendo tipologie");
+                //dump("prendo tipologie");
                 $tipologie = $dl->getTipologie();
                 $_SESSION['tipologie'] = $tipologie;
             }
@@ -121,7 +121,7 @@ class FrontController extends Controller
                 $date = $_SESSION['date'];
             }
             else {
-                dump("prendo date");
+                //dump("prendo date");
                 $date = $dl->getDate();
                 $_SESSION['date'] = $date;
             }
@@ -130,7 +130,7 @@ class FrontController extends Controller
                 $secoli = $_SESSION['secoli'];
             }
             else {
-                dump("prendo secoli");
+                //dump("prendo secoli");
                 $secoli = $dl->getSecoli();
                 $_SESSION['secoli'] = $secoli;
             }
@@ -139,17 +139,17 @@ class FrontController extends Controller
                 $luoghi = $_SESSION['luoghi'];
             }
             else {
-                dump("prendo luoghi");
+                //dump("prendo luoghi");
                 $luoghi = $dl->getLuoghi();
                 $_SESSION['luoghi'] = $luoghi;
             }
             
             if (isset($_SESSION['autori'])){
                 $autori = $_SESSION['autori'];
-                dump($autori);
+                //dump($autori);
             }
             else {
-                dump("prendo autori");
+                //dump("prendo autori");
                 $autori = $dl->getAutori();
                 $_SESSION['autori'] = $autori;
             }
@@ -158,7 +158,7 @@ class FrontController extends Controller
                 $eta = $_SESSION['eta'];
             }
             else {
-                dump("prendo eta");
+                //dump("prendo eta");
                 $eta = $dl->getEta();
                 $_SESSION['eta'] = $eta;
             }
@@ -206,7 +206,7 @@ class FrontController extends Controller
     
     ////AJAX
     public function ajaxDatiFiltro(){
-        dump("contoller ricevuto ajax");
+        //dump("contoller ricevuto ajax");
         error_log('contoller ricevuto ajax');
         session_start();
         $dl = new DataLyer();
@@ -361,13 +361,13 @@ class FrontController extends Controller
             
             //prendo opere, scartando quelle dell'array di ID
             
-            dump("Opere");
-            dump($opere);
+            //dump("Opere");
+            //dump($opere);
             
             //prendo opere selezionate da array di ID
             $opere_selezionate = $dl->getOpereSelezionate($opere_selezionate_array_id);
-            dump("Opere selezionate");
-            dump($opere_selezionate);
+            //dump("Opere selezionate");
+            //dump($opere_selezionate);
             
             
             
@@ -429,7 +429,7 @@ class FrontController extends Controller
             //dump($opere_id);
            
             $opere = $dl->getOpereByMultipleId($opere_id);
-            dump($opere);
+            //dump($opere);
                          
             return view('conferma_percorso')->with('logged',false)->with('opere',$opere)
                     ->with('valore',"pollo")
@@ -452,18 +452,18 @@ class FrontController extends Controller
             
             $opere = $request->input('opere');
             $opere_array = json_decode(stripslashes($opere),true);
-            dump("Opere:");
-            dump($opere_array);
+            //dump("Opere:");
+            //dump($opere_array);
             $titolo = $request->input('titolo');
-            dump($titolo);
+            //dump($titolo);
             $descrizione = $request->input('descrizione');
-            dump($descrizione);
+            //dump($descrizione);
             
             $int_array = [];
             foreach ($opere_array as $opera) {
                array_push($int_array, (int)($opera['id'])); 
             }
-            dump($int_array);
+            //dump($int_array);
             
             $dl->creaPercorso($titolo, $descrizione, $opere_array);
             return redirect()->route('conferma_creazione');
