@@ -30,6 +30,18 @@ class FrontController extends Controller
         }
     }
     
+    public function confermaCreazionePercorso(){
+        session_start();
+        //controlla che sia loggato
+        if(isset($_SESSION['logged'])) {
+            
+        } else {
+            
+            
+            return view('conferma_creazione')->with('logged',false);
+        }
+    }
+    
     //non usato
     public function getHomeFilter(Request $request) {
         
@@ -454,8 +466,8 @@ class FrontController extends Controller
             dump($int_array);
             
             $dl->creaPercorso($titolo, $descrizione, $opere_array);
-                         
-            return view('index')->with('logged',false);
+            return redirect()->route('conferma_creazione');
+            //return view('home');
             
             
         }

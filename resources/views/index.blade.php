@@ -21,6 +21,9 @@
     </div>
 </div>
 
+<h2 id="caricamento_ajax">Caricamento informazioni ...</h2>
+<h2 id="caricamento_finito_ajax">Informazioni caricate</h2>
+
 
 <script type="text/javascript">
 //ajax_parametri_filtri();

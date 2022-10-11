@@ -43,3 +43,5 @@ Route::resource('opera', 'OperaController', ['only' => ['show','index', 'edit', 
 Route::post('/ajaxParametri', 'FrontController@ajaxDatiFiltro'); 
 
 Route::post('/ajax', 'FrontController@ajax'); 
+
+Route::get('conferma_creazione', ['as' => 'conferma_creazione', 'uses' => 'FrontController@confermaCreazionePercorso']);

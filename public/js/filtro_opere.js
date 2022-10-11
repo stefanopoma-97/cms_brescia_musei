@@ -38,7 +38,9 @@ function ajax_parametri_filtri(){
 }
 
 function ajax (){
-    window.confirm("AJAX2 lanciato");
+    $('#caricamento_finito_ajax').hide();
+    $('#caricamento_ajax').show();
+    //window.confirm("AJAX2 lanciato");
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -52,10 +54,12 @@ function ajax (){
             cache: false,
             processData: false,
             success:function(response)
-            {
-                window.confirm("SUCCESS2");
-                window.confirm("HO RICEVUTO:"+response.success+" - "+response);
-                alert(response.success);
+            {   
+                $('#caricamento_ajax').hide();
+                $('#caricamento_finito_ajax').show();
+                //window.confirm("SUCCESS2");
+                //window.confirm("HO RICEVUTO:"+response.success+" - "+response);
+                //alert(response.success);
             },
             error: function(response, XMLHttpRequest, textStatus, errorThrown) {
                 window.confirm("ERROR2");
