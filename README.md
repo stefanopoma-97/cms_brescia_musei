@@ -27,6 +27,11 @@ LOG_CHANNEL=stack
 
 13) php artisan serve
 
+14) nella cartella /dump c'è un file .dump per popolare il database Neo4j senza dover utilizzare il data lake. Nella guida pdf trovi il tutorial completo
+
+
+Nella cartella /guida trovi un file .pdf con alcuni consigli per testare correttamente il codice
+
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
