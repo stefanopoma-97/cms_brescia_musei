@@ -3,10 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/stefano/Universita/Anno%205/Tesi%20e%20Stage/progetto%20cms%20brescia%20musei/cms_brescia_musei/app/Http/Controllers/FrontController.php</file>
-            <file>file:/C:/stefano/Universita/Anno%205/Tesi%20e%20Stage/progetto%20cms%20brescia%20musei/cms_brescia_musei/app/DataLayer.php</file>
-            <file>file:/C:/stefano/Universita/Anno%205/Tesi%20e%20Stage/progetto%20cms%20brescia%20musei/cms_brescia_musei/resources/views/index.blade.php</file>
-            <file>file:/C:/stefano/Universita/Anno%205/Tesi%20e%20Stage/progetto%20cms%20brescia%20musei/cms_brescia_musei/app/Http/Controllers/OperaController.php</file>
+            <file>file:/C:/stefano/Universita/Anno%205/Tesi%20e%20Stage/progetto%20cms%20brescia%20musei/cms_brescia_musei/resources/views/filtro_percorsi.blade.php</file>
             <file>file:/C:/stefano/Universita/Anno%205/Tesi%20e%20Stage/progetto%20cms%20brescia%20musei/cms_brescia_musei/public/js/filtro_opere.js</file>
         </group>
     </open-files>

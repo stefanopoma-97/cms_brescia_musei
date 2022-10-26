@@ -25,6 +25,29 @@ class FrontController extends Controller
         } else {
             $opere = $dl->getOpere();
             $opere_selezionate = [];
+            $id_opere=[];
+            for ($i=1; $i<100; $i++){
+                array_push($id_opere, $i);
+            }
+            
+            
+            $array_tempi = [];
+            // Start loop
+            for($i = 1; $i <=20; $i++)
+            {   
+                $start_time = microtime(true);
+                //$dl->getOpere();
+                //$dl->getOpereSecolo([], 20);
+                //$dl->getOperePerVisite([]);
+                //$dl->getOpereSesso([], "M");
+                $dl->creaPercorsoTEST("titolo", "descrizione", $id_opere);
+                $end_time = microtime(true);
+                array_push($array_tempi, ($end_time-$start_time));
+            } 
+
+            
+            dump($array_tempi);
+            
             
             return view('index')->with('logged',false);
         }

@@ -109,6 +109,23 @@ class DataLayer extends Model
         return true;
     }
     
+    public function creaPercorsoTEST($titolo, $descrizione, $opere){
+        $id = (string)uniqid(rand());
+        $int_array = $opere;
+        
+         
+        //creo percorso con dato id
+        ($this->client->run('MERGE (p:Percorso {titolo:$titolo,descrizione:$descrizione, id:$id})',['descrizione' => $descrizione, 'titolo'=>$titolo, 'id'=>$id]));
+        
+        //creo relazioni
+        ($this->client->run('MATCH (p:Percorso)
+            MATCH (o:Opera)
+            WHERE o.id in $int_array AND p.id = $id
+            MERGE (p)-[:PERCORSO_OPERA]->(o)',['int_array' => $int_array, 'id'=>$id]));
+        
+        return true;
+    }
+    
     /*
      * Ritorna tutte le opere ordinate per ID
      * all'insieme di tutte le opere vengono sottratte le opere il cui ID è contenuto in $array_id
